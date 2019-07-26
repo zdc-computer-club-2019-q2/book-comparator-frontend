@@ -37,18 +37,18 @@ class Result extends React.Component {
     //TODO: we could request data from server here and put into page state
     console.log("request the data from server here");
     const { match } = this.props;
-    fetch("https://127.0.0.1:5000/" + match.params.isbn.toString())
-      .then(response => {
-        return response.json();
-      })
-      .then(myJson => {
-        if (myJson) {
-          this.setState({ loading: false, error: false, result: myJson });
-        }
-      })
-      .catch(response => {
-        this.setState({ loading: false, error: true, result: null });
-      });
+    // fetch("https://127.0.0.1:5000/" + match.params.isbn.toString())
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(myJson => {
+    //     if (myJson) {
+    //       this.setState({ loading: false, error: false, result: myJson });
+    //     }
+    //   })
+    //   .catch(response => {
+    //     this.setState({ loading: false, error: true, result: null });
+    //   });
 
     // TODO: send a request and set state based on response
   }
@@ -93,7 +93,7 @@ class Result extends React.Component {
           <hr />
           <div className="columns">
             <div className="column right_align">
-              <img src="https://kinokuniya.com.sg/wp-content/uploads/2019/05/9780060853983.jpeg" />
+              <img src={cover} />
             </div>
             <div className="column">
               <p className="title_book">{title}</p>
@@ -114,24 +114,30 @@ class Result extends React.Component {
             </div>
           </section>
           <hr />
-          <div className="columns">
-            {recommended.map(item => (
-              <div className="column">
-                <p>ISBN: {item["isbn"]}</p>
-                <p>Title: {item["title"]}</p>
-              </div>
-            ))}
-          </div>
+          <section className="section">
+            <p className="has-text-primary">Recommendations:</p>
+            <div className="columns">
+              {recommended.map(item => (
+                  <div className="column">
+                    <p>ISBN: {item["isbn"]}</p>
+                    <p>Title: {item["title"]}</p>
+                  </div>
+              ))}
+            </div>
+          </section>
 
-          <div className="columns">
-            {reviews.map(item => (
-              <div className="column">
-                <p>Username: {item["username"]}</p>
-                <p>Rating: {item["rating"]}</p>
-                <p>Comment: {item["comment"]}</p>
-              </div>
-            ))}
-          </div>
+          <section className="section">
+            <p className="has-text-primary">Reviews:</p>
+            <div className="columns">
+              {reviews.map(item => (
+                  <div className="column">
+                    <p>Username: {item["username"]}</p>
+                    <p>Rating: {item["rating"]}</p>
+                    <p>Comment: {item["comment"]}</p>
+                  </div>
+              ))}
+            </div>
+          </section>
         </div>
       );
     }
