@@ -20,6 +20,8 @@ class Result extends React.Component {
                 "author": "George Orwell",
                 "recommended": [
                     {"isbn": "29384792837", "title": "Another book"},
+                    {"isbn": "293", "title": "Aer book"},
+                    {"isbn": "29384792837", "title": "Another book"},
                 ],
                 "reviews": [
                     {"username": "a", "rating": 3, "comment": "a"},
@@ -76,8 +78,15 @@ class Result extends React.Component {
                         </div>
                     </section>
                     <hr/>
-                    <div>
-                        {/*More things go here*/}
+                    <div className="columns">
+                        {recommended.map(item => (<div className="column"><p>ISBN: {item["isbn"]}</p>
+                        <p>Title: {item["title"]}</p></div>))}
+                        
+                    </div>
+                    
+                    <div className="columns">
+                        {reviews.map(item => (<div className="column"><p>Username: {item["username"]}</p>
+                        <p>Rating: {item["rating"]}</p><p>Comment: {item["comment"]}</p></div>))}
                     </div>
                 </div>
             );
