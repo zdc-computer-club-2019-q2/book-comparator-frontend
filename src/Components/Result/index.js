@@ -6,6 +6,7 @@ class Result extends React.Component {
         super(props);
         this.state = {
             loading: false, //TODO: how to decide whether we're loading, and what to do if it's waiting for result?
+            error: false,
             result: {
                 "title": "Good Omens",
                 "cover": "https://kinokuniya.com.sg/wp-content/uploads/2019/05/9780060853983.jpeg",
@@ -34,14 +35,42 @@ class Result extends React.Component {
     componentDidMount() {
         //TODO: we could request data from server here and put into page state
         console.log("request the data from server here");
+        const {match} = this.props;
+        fetch("https://127.0.0.1:5000/" + match.params.isbn.toString())
+            .then((response) => {
+                return response.json();
+            })
+            .then((myJson) => {
+                if (myJson){
+                    this.setState({loading: false, error: false, result: myJson});
+                }
+            }).catch((response) => {
+                this.setState({loading: false, error: true, result: null});
+            });
+
 
         // TODO: send a request and set state based on response
+
+
     }
 
     render() {
         //TODO: here we render the result fetched from server, with styles
         const {match} = this.props;
-        const {result} = this.state;
+        const {loading} = this.state;
+        if (loading){
+            return null;
+        }
+        const {result, error} = this.state;
+        if (error){
+            return (
+                <div>
+                    <h1>
+                        No results found
+                    </h1>
+                </div>
+            );
+        }
         const {title, cover, categories, offers, description, author, recommended, reviews} = result;
 
         const isbn = match.params.isbn;
