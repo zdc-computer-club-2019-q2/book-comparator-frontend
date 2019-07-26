@@ -1,4 +1,24 @@
 /*styles for the search page!*/
-#search .debug{
-    font-size: 0.5em;
+#search .debug {
+  font-size: 0.5em;
+  margin-top: 10px;
+}
+
+#search input {
+  width: 80%;
+  border: 1px solid grey;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+
+#searchfield {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
 }
