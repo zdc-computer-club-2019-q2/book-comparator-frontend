@@ -9,15 +9,19 @@ function App() {
   return (
       <Router>
         <div id="app">
+          <div>
+            <h1 className="large-title">Bookaholic</h1>
+            <h2 className="small-title">The Trusted Book Comparison Site</h2>
+          </div>
           <nav>
-            <ul>
-              <li>
+            <ul className="main-nav">
+              <li className="nav-item">
                 <Link to="/">Search</Link>
               </li>
-              <li>
+              <li className="nav-item">
                 <Link to="/9780060853983">Mock result page</Link>
               </li>
-              <li>
+              <li className="nav-item">
                 <Link to="/about/">About Us</Link>
               </li>
             </ul>
