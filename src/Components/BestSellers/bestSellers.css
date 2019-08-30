@@ -1,28 +1,77 @@
 /*styles for the best seller page!*/
-#bestsellers .card {
-  box-shadow: none;
+.bestsellers {
+  display: flex;
 }
-#bestsellers .card-content {
-  padding-left: 0;
+
+.bestsellers__section {
+  margin-bottom: 150px;
+}
+
+.bestsellers__section:last-child {
+  margin-bottom: 0;
+}
+
+.bestsellers .card {
+  flex: 1;
+  box-shadow: none;
+  margin-right: 20px;
 }
 
 #bestsellers .card .media-content p {
   margin-bottom: 0.5em;
 }
 
-#bestsellers h1 {
-  margin-bottom: 2em;
-  margin-top: 5em;
+#bestsellers .header {
+  margin: 0;
+  margin-bottom: 50px;
+  font-size: 32px;
+  line-height: 30px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: #343434;
+  display: flex;
+  align-items: center;
 }
 
-#bestsellers h1 span {
-  padding-left: 2em;
+#bestsellers .header .is-left {
+  font-size: 14px;
+  color: #343434;
+  margin-left: 20px;
 }
 
-#bestsellers .tag {
+.card__copy {
+  margin-top: 20px;
+}
+
+.card__tag {
   margin-bottom: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 5px 12px;
+  background: rgb(240,240,240);
+  border-radius: 4px;
 }
 
-#bestsell #bestsellers .card {
-  box-shadow: none;
+.card__image {
+  height: 180px;
+  width: 120px;
+  background-size: cover;
 }
+
+.card__title {
+  font-size: 14px;
+  letter-spacing: .5px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.card__author {
+  font-size: 12px;
+}
+
+.card__author span {
+  font-weight: 600;
+}
+
+

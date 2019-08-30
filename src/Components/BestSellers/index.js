@@ -21,48 +21,79 @@ function Header({ type }) {
 function BestSeller({ author, imageUrl, tag, title }) {
   // TODO: link to Book
   return (
-    <div class="column">
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by5">
-            <img src={imageUrl} alt="book" />
-          </figure>
-        </div>
-        <div class="card-content">
-          <div class="media">
-            <div class="media-content">
-              <span class="tag">{tag ? tag.toUpperCase() : "TAG"}</span>
-              <p class="title is-6">{title.toUpperCase()}</p>
-              <small>by {author}</small>
+      <div className="card">
+        <div
+            className="card__image"
+            style={{backgroundImage: `url(${imageUrl})`}}
+        />
+        <div className="card__copy">
+          <div className="media">
+            <div className="media-content">
+              <span className="card__tag">{tag ? tag.toUpperCase() : "TAG"}</span>
+              <div className="card__title">{title.toUpperCase()}</div>
+              <div className="card__author">by <span>{author}</span></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
 function BestSellers() {
   return (
     <div id="bestsellers">
-      <Header type="Fiction" />
-      <div class="columns is-8 is-mobile is-variable">
-        <BestSeller
-          author="Agatha Christie"
-          imageUrl={fbs_1}
-          title="The ABC Murders"
-        />
-        <BestSeller author="Cecelia Ahern" imageUrl={fbs_2} title="The Gift" />
-        <BestSeller
-          author="Antoine de Saint-Exupéry"
-          imageUrl={fbs_3}
-          title="The Little Prince"
-        />
-        <BestSeller
-          author="Amy Newmark"
-          imageUrl={nfbs_1}
-          title="Chicken Soup for the Soul"
-        />
+      <div className="bestsellers__section">
+        <Header type="Fiction" />
+        <div class="bestsellers">
+          <BestSeller
+            author="Agatha Christie"
+            imageUrl={fbs_1}
+            title="The ABC Murders"
+          />
+          <BestSeller author="Cecelia Ahern" imageUrl={fbs_2} title="The Gift" />
+          <BestSeller
+            author="Antoine de Saint-Exupéry"
+            imageUrl={fbs_3}
+            title="The Little Prince"
+          />
+          <BestSeller
+            author="Amy Newmark"
+            imageUrl={nfbs_1}
+            title="Chicken Soup for the Soul"
+          />
+          <BestSeller
+              author="Agatha Christie"
+              imageUrl={fbs_1}
+              title="The ABC Murders"
+          />
+        </div>
+      </div>
+
+      <div className="bestsellers__section">
+        <Header type="Non Fiction"/>
+        <div className="bestsellers">
+          <BestSeller
+              author="Agatha Christie"
+              imageUrl={fbs_1}
+              title="The ABC Murders"
+          />
+          <BestSeller author="Cecelia Ahern" imageUrl={fbs_2} title="The Gift"/>
+          <BestSeller
+              author="Antoine de Saint-Exupéry"
+              imageUrl={fbs_3}
+              title="The Little Prince"
+          />
+          <BestSeller
+              author="Amy Newmark"
+              imageUrl={nfbs_1}
+              title="Chicken Soup for the Soul"
+          />
+          <BestSeller
+              author="Agatha Christie"
+              imageUrl={fbs_1}
+              title="The ABC Murders"
+          />
+        </div>
       </div>
     </div>
   );
