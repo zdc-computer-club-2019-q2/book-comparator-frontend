@@ -44,6 +44,12 @@
   margin-left: 20px;
 }
 
+.card__container {
+  text-decoration: none;
+  color: #343434;
+  width: 170px;
+}
+
 .card__copy {
   margin-top: 20px;
 }
@@ -78,5 +84,3 @@
 .card__author span {
   font-weight: 600;
 }
-
-
