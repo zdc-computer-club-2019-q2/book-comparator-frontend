@@ -3,11 +3,6 @@ import useFetch from "../../utils/useFetch";
 
 import "./bestSellers.css";
 
-import fbs_1 from "../../images/fbs_1.jpg";
-import fbs_2 from "../../images/fbs_2.jpg";
-import fbs_3 from "../../images/fbs_3.jpg";
-import nfbs_1 from "../../images/nfbs_1.jpg";
-
 function Header({ type }) {
     return (
         <h1 className="header">
