@@ -4,12 +4,14 @@ import useFetch from "../../utils/useFetch";
 
 import "./searchResult.css";
 
-function Result({ author, imageUrl, title, onClick, bestSeller = false }) {
+function Result({ author, title, onClick, isbn, bestSeller = false }) {
   return (
     <div className="search-result" onClick={onClick}>
       <div
         className="search-result__image"
-        style={{ backgroundImage: `url(${imageUrl})` }}
+        style={{
+          backgroundImage: `url(/api/image?isbn=${isbn})`
+        }}
       />
       <div className="search-result__copy">
         <div className="search-result__title">{title.toUpperCase()}</div>
