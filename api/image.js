@@ -17,7 +17,7 @@ async function requestGet(url, nullEncoding = false) {
             if (err) {
                 reject(err);
             } else {
-                resolve([body, resp.headers["content-type"]]);
+                resolve([body, resp.headers]);
             }
         });
     });
@@ -32,6 +32,8 @@ async function getImage(isbn) {
     return data.items[0].volumeInfo.imageLinks.thumbnail;
 }
 
+const defaultImageURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/387928/book%20placeholder.png";
+
 /* Get bestseller list. */
 module.exports = async function(req, res) {
     if (!req.query.isbn) return;
@@ -41,12 +43,13 @@ module.exports = async function(req, res) {
         imageURL = await getImage(req.query.isbn);
     } catch (error) {}
 
-    if (imageURL) {
-        const [image, contentType] = await requestGet(imageURL, true);
-        res.setHeader("Content-Type", contentType);
-        res.setHeader("Content-Length", image.length);
-        res.send(image);
-    } else {
-        res.send("");
-    }
+    imageURL = imageURL || defaultImageURL;
+
+    const [image, headers] = await requestGet(imageURL, true);
+    res.setHeader("content-type", headers["content-type"]);
+    res.setHeader("cache-control", headers["cache-control"]);
+    res.setHeader("date", headers["date"]);
+    res.setHeader("expires", headers["expires"]);
+    res.setHeader("Content-Length", image.length);
+    res.send(image);
 };
