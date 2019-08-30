@@ -18,9 +18,11 @@ function Header({ type }) {
   );
 }
 
-function BestSeller({ author, imageUrl, tag, title }) {
+function BestSeller({ author, imageUrl, tag, title, isbn}) {
   // TODO: link to Book
+  const url = "/book/" + isbn;
   return (
+    <a href={url}>
       <div className="card">
         <div
             className="card__image"
@@ -36,10 +38,24 @@ function BestSeller({ author, imageUrl, tag, title }) {
           </div>
         </div>
       </div>
+     </a>
   );
 }
 
 function BestSellers() {
+  const domain = "https://book-comparator-frontend-git-mockups.zdc-computer-club-2019-q2.now.sh";
+  let url_fiction = fetch("/api/bestseller?type=fiction", []);
+  let url_nonfiction = fetch("/api/bestseller?type=nonfiction", []);
+  fetch(domain + "/api/search?q=abc", { mode: 'cors' })
+    .then(function(response) {
+      response.json().then(function(data) {
+        console.log(data);
+      });
+    })
+    .catch(function(error) {
+
+    })
+
   return (
     <div id="bestsellers">
       <div className="bestsellers__section">
@@ -49,26 +65,30 @@ function BestSellers() {
             author="Agatha Christie"
             imageUrl={fbs_1}
             title="The ABC Murders"
+            isbn="1234"
           />
           <BestSeller author="Cecelia Ahern" imageUrl={fbs_2} title="The Gift" />
           <BestSeller
             author="Antoine de Saint-Exupéry"
             imageUrl={fbs_3}
             title="The Little Prince"
+            isbn="1234"
           />
           <BestSeller
             author="Amy Newmark"
             imageUrl={nfbs_1}
             title="Chicken Soup for the Soul"
+            isbn="1234"
           />
           <BestSeller
               author="Agatha Christie"
               imageUrl={fbs_1}
               title="The ABC Murders"
+              isbn="1234"
           />
         </div>
       </div>
-
+      
       <div className="bestsellers__section">
         <Header type="Non Fiction"/>
         <div className="bestsellers">
