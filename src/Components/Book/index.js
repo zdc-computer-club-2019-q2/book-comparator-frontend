@@ -9,7 +9,7 @@ import fbs_1 from "../../images/fbs_1.jpg";
 
 function BookDetail({ author, imageUrl, title, tag }) {
   return (
-    <div class="columns is-mobile">
+    <div id="book-detail" class="columns is-mobile">
       <div class="column is-one-fifth">
         <figure class="image is-4by5">
           <img src={imageUrl} alt="book" />
@@ -29,6 +29,7 @@ function BookDetail({ author, imageUrl, title, tag }) {
           ornare. Proin mollis a arcu ut tincidunt.
         </p>
         <p class="tag is-warning">{tag ? tag.toUpperCase() : "TAG"}</p>
+        <h1>Stores</h1>
       </div>
     </div>
   );
@@ -50,6 +51,7 @@ function Store({ brand, price }) {
           <button class="button is-light">Buy</button>
         </div>
       </div>
+      <hr class="new"></hr>
     </>
   );
 }
