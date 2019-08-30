@@ -8,6 +8,7 @@ module.exports = function(req, res, next) {
   {
     "title": "1984",
     "cover": "http://.../1984.gif",
+    author: "",
     "categories": "",
     "offers": [
       { "site": "amazon", "price": 100, "url": "" },
@@ -57,6 +58,7 @@ module.exports = function(req, res, next) {
     }
 
     const url = `https://singapore.kinokuniya.com/bw/${req.query.isbn}`;
+
     request(url, (err, kino) => {
         if (err) {
             console.error("Error fetching from kinokuniya", err);
@@ -68,30 +70,41 @@ module.exports = function(req, res, next) {
 
             return;
         }
-        const doc = new JSDOM(kino.body).window;
+        if (kino.statusCode === 404){
+            console.error("Book not found on kinokuniya");offers.kinokuniya = {
+                error: true
+            };
+            done();
+        } else {
+            const doc = new JSDOM(kino.body).window;
 
-        const kino_title = doc.document.querySelector(".dContent h1").innerText;
-        const kino_desc = doc.document.querySelector("#product_description_box .long_description").innerText;
-        const kino_authors = doc.document.querySelectorAll(".author a");
-        const price = doc.document.querySelector(".price span").innerText;
-        const img = doc.document.querySelector(".slider3 img");
+            const kino_title = doc.document.title;
+            const kino_desc = doc.document.querySelector(".product-descrip").textContent;
+            const kino_price = doc.document.querySelector(".price span").textContent;
+            const kino_authors = doc.document.querySelectorAll(".author a");
+            const price = doc.document.querySelector(".price span").innerText;
+            const image = doc.document.querySelector(".slider3 img");
 
-        //     let recommendation = Array.from(doc.document.querySelectorAll('#customers_also_bought .slider_pager.bx-clone .box'));
-        //     recommendation.map((box) => ({
-        //       cover: box.querySelector('.book-image').src,
-        //       isbn: box.querySelector('.book-image').alt
+            let recommendation = Array.from(doc.document.querySelectorAll('.box')).map((box) => ({
+                cover: box.querySelector('.book-image').src,
+                isbn: box.querySelector('.book-image').alt,
+                title: box.querySelector('.txt a:nth-child(1)').textContent.trim(),
+                author: box.querySelector('.txt a:nth-child(2)').textContent.slice(3).trim()
+            }));
 
-        //     }));
+            response.recommendation = recommendation;
+            response.isbn = req.query.isbn;
+            response.title = kino_title;
+            response.cover = image.src;
+            response.description = kino_desc ? kino_desc.trim() : "No description";
+            response.author = Array.from(kino_authors).map(author => author.text);
 
-        response.isbn = req.query.isbn;
-        response.title = kino_title;
-        response.cover = img.src;
-        response.description = kino_desc ? kino_desc.trim() : "No description";
-        response.author = Array.from(kino_authors).map(author => author.text);
+            offers.kinokuniya = { 
+                price: kino_price, url: "https://singapore.kinokuniya.com/bw/" + req.query.isbn
+            };
 
-        offers.kinokuniya = { price, url }; // { price: price, url: url }
-
-        done();
+            done();
+        }
     });
 
     request(`https://opentrolley.com.sg/Book_Detail.aspx?EAN=${req.query.isbn}`, (err, trolley) => {
