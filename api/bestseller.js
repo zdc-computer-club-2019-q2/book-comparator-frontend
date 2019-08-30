@@ -1,9 +1,8 @@
-const { NYT_API_KEY, GOOGLE_BOOKS_API_KEY } = require("../config");
+const { NYT_API_KEY } = require("../config");
 
 var request = require("request");
 
 const NYT_API = `https://api.nytimes.com/svc/books/v3/lists.json?api-key=${NYT_API_KEY}`;
-const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 
 async function requestGet(url) {
     // Return new promise
@@ -17,14 +16,6 @@ async function requestGet(url) {
             }
         });
     });
-}
-
-async function getImage(isbn) {
-    const data = JSON.parse(await requestGet(`${GOOGLE_BOOKS_API}&q=isbn:${isbn}`));
-
-    if (data.totalItems === 0) return;
-
-    return data.items[0].volumeInfo.imageLinks.thumbnail;
 }
 
 /* Get bestseller list. */
@@ -49,9 +40,6 @@ module.exports = async function(req, res) {
         const book = data.results[i];
         const new_book = {
             isbn: book.book_details[0].primary_isbn13,
-            image:
-                (book.isbns[0] && (await getImage(book.isbns[0].isbn10))) ||
-                (book.isbns[1] && (await getImage(book.isbns[1].isbn10))),
             title: book.book_details[0].title,
             author: book.book_details[0].author,
             bestseller_weeks: book.weeks_on_list
