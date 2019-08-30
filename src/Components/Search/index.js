@@ -11,7 +11,7 @@ function Search({ history }) {
   function onKeyDown(e) {
     // Enter key
     if (e.keyCode === 13) {
-      history.push(`/result?result=${value}`);
+      history.push(`/result?q=${value}`);
     }
   }
 
@@ -23,37 +23,41 @@ function Search({ history }) {
     setFocus(false);
   }
 
-  const inputClassNames = ['search-input'];
+  const inputClassNames = ["search-input"];
   if (focus) {
-    inputClassNames.push('search-input--focused');
+    inputClassNames.push("search-input--focused");
   }
 
-  const errorClassNames = ['search__error'];
+  const errorClassNames = ["search__error"];
   if (error) {
-    errorClassNames.push('search__error--display');
+    errorClassNames.push("search__error--display");
   }
 
   return (
     <div id="search" onKeyDown={onKeyDown}>
       <div className="search-instruction">Find the cheapest store</div>
-      <div className={inputClassNames.join(' ')}>
-          <span className="icon is-small is-left">
-            <i className="fas fa-search"></i>
-          </span>
+      <div className={inputClassNames.join(" ")}>
+        <span className="icon is-small is-left">
+          <i className="fas fa-search"></i>
+        </span>
 
         <input
-            placeholder="Enter an ISBN, book title or author"
-            type="text"
-            value={value}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onChange={(e) => {
-              setValue(e.target.value);
-              setError();
-            }}
+          placeholder="Enter an ISBN, book title or author"
+          type="text"
+          value={value}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onChange={e => {
+            setValue(e.target.value);
+            setError();
+          }}
         />
       </div>
-      <div className={errorClassNames.join(' ')}>{'Oops, there is no book match \''}<span>{error}</span>{'\'.'}</div>
+      <div className={errorClassNames.join(" ")}>
+        {"Oops, there is no book match '"}
+        <span>{error}</span>
+        {"'."}
+      </div>
     </div>
   );
 }
