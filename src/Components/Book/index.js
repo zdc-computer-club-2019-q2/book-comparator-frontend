@@ -1,8 +1,10 @@
 import React from "react";
 
+import useFetch from "../../utils/useFetch";
+
 import "./book.css";
 
-import brandAmazon from "../../images/brand-amazon.jpg";
+import brandOpenTrolley from "../../images/brand-open-trolley.png";
 import brandBookRepository from "../../images/brand-book-repository.png";
 import brandKinokuniya from "../../images/brand-kinokuniya.jpg";
 import fbs_1 from "../../images/fbs_1.jpg";
@@ -77,17 +79,43 @@ function Redirect() {
   );
 }
 
-function Book() {
+const BRAND_IMAGE_MAP = {
+  opentrolley: brandOpenTrolley,
+  bookdepository: brandBookRepository,
+  kinokuniya: brandKinokuniya
+};
+
+function Book({ match }) {
+  const { isbn } = match.params;
+
+  const { response } = useFetch(`/api/book?isbn=${isbn}`);
+
+  if (response === null) {
+    return <p>Loading ...</p>;
+  }
+
+  const { offers, cover, author, title } = response;
+
+  if (!author) {
+    return <p>Book does not exist</p>;
+  }
+
+  const finalAuthor = author.join ? author.join("; ") : author; // author can be an array
+
   return (
     <div id="book">
-      <BookDetail
-        author="Agatha Christie"
-        imageUrl={fbs_1}
-        title="The ABC Murders"
-      />
-      <Store brand={brandAmazon} price="$12.00" />
-      <Store brand={brandBookRepository} price="$12.00" />
-      <Store brand={brandKinokuniya} price="$12.00" />
+      <BookDetail author={finalAuthor} imageUrl={cover} title={title} />
+      {offers.map(offer => {
+        if (offer.price) {
+          return (
+            <Store
+              key={offer.site}
+              brand={BRAND_IMAGE_MAP[offer.site]}
+              price={offer.price}
+            />
+          );
+        }
+      })}
       <Redirect />
     </div>
   );
