@@ -1,22 +1,67 @@
 /*styles for the search page!*/
-#search-result {
+.search-results {
   margin-top: 5em;
 }
 
-#search-result .results {
-  margin-bottom: 2em;
+.search-results__number {
+  margin-bottom: 40px;
+  font-size: 14px;
+  letter-spacing: .5px;
+  color: #727272;
 }
 
-#search-result .column.details {
-  padding-left: 2em !important;
+.search-results__number b {
+  color: black;
 }
 
-#search-result .column.details p {
-  margin-bottom: 0.5em;
+.search-result {
+  display: flex;
+  cursor: pointer;
 }
 
-#search-result .column.details .tag {
-  background-color: #fdfd96;
-  color: #ff8c00;
-  margin-top: 1em;
+.search-results__result {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #f3f3f3;
+  padding-bottom: 30px;
+}
+
+.search-results__result:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.search-result__image {
+  height: 150px;
+  width: 100px;
+  background-size: cover;
+}
+
+.search-result__copy {
+  flex: 1;
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+.search-result__title {
+  font-size: 14px;
+  letter-spacing: .5px;
+  font-weight: 700;
+}
+
+.search-result__author {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.search-result__author span {
+  font-weight: 700;
+}
+
+.search-result__tag {
+  margin-top: 20px;
+}
+
+.book-tag--bestseller {
+  background: rgb(252, 238, 206);
+  color: rgb(209, 151, 52);
 }

@@ -20,8 +20,8 @@ async function requestGet(url) {
     });
 }
 
-async function getCover(isbn) {
-    const data = JSON.parse(await requestGet(`${GOOGLE_BOOKS_API}?q=isbn:${isbn}`));
+async function getImage(isbn) {
+    const data = JSON.parse(await requestGet(`${GOOGLE_BOOKS_API}&q=isbn:${isbn}`));
 
     if (data.totalItems === 0) return;
 
@@ -30,37 +30,53 @@ async function getCover(isbn) {
 
 /* Get bestseller list. */
 module.exports = async function(req, res) {
-    const category = req.query.category || "fiction";
+    const type = req.query.type || "fiction"; // default fiction
     let listName;
 
-    switch (category) {
+    switch (type) {
         case "fiction":
-            listName = "combined-print-and-e-book-fiction";
+            listName = "hardcover-fiction";
             break;
         case "nonfiction":
         default:
-            listName = "combined-print-and-e-book-nonfiction";
+            listName = "hardcover-nonfiction";
     }
 
     const data = JSON.parse(await requestGet(`${NYT_API}&list-name=${listName}`));
 
-    const promises = [];
+    // const promises = [];
+    //
+    // for (let i = 0; i < data.num_results; i++) {
+    //     const book = data.results[i];
+    //     promises.push(getCover(book.isbns[0].isbn13));
+    // }
+
+    // const result = await Promise.all(
+    //     data.results.map(async book => {
+    //         const image = await getCover(book.book_details.primary_isbn13);
+    //         return {
+    //             ...book.book_details,
+    //             image,
+    //             weeks_on_list: book.weeks_on_list
+    //         };
+    //     })
+    // );
+
+
+    const results = [];
 
     for (let i = 0; i < data.num_results; i++) {
         const book = data.results[i];
-        promises.push(getCover(book.isbns[0].isbn13));
-    }
+        const new_book = {
+            isbn: book.book_details[0].primary_isbn13,
+            image: (book.isbns[0] && await getImage(book.isbns[0].isbn10)) || book.isbns[1] && await getImage(book.isbns[1].isbn10),
+            title: book.book_details[0].title,
+            author: book.book_details[0].author,
+            bestseller_weeks: book.weeks_on_list
+        };
 
-    const result = await Promise.all(
-        data.results.map(async book => {
-            const image = await getCover(book.book_details.primary_isbn13);
-            return {
-                ...book.book_details,
-                image,
-                weeks_on_list: book.weeks_on_list
-            };
-        })
-    );
+        results.push(new_book);
+    };
 
-    res.json(result);
+    res.json({ results });
 };
