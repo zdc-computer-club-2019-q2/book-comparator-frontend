@@ -15,5 +15,17 @@ code {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 150px 0;
+  padding: 0;
+  padding-bottom: 150px;
+}
+
+.book-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 6px 12px;
+  background: rgb(240,240,240);
+  border-radius: 4px;
+  text-transform: uppercase;
+  width: fit-content;
 }

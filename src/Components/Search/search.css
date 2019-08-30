@@ -1,9 +1,9 @@
 /*styles for the search page!*/
 #search {
-  height: 70vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 #search .debug {

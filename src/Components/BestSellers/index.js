@@ -24,12 +24,12 @@ function BestSeller({ author, imageUrl, tag, title }) {
       <div className="card">
         <div
             className="card__image"
-            style={{backgroundImage: `url(${imageUrl})`}}
+            style={{ backgroundImage: `url(${imageUrl})` }}
         />
         <div className="card__copy">
           <div className="media">
             <div className="media-content">
-              <span className="card__tag">{tag ? tag.toUpperCase() : "TAG"}</span>
+              <span className="book-tag card__tag">{tag ? tag.toUpperCase() : "TAG"}</span>
               <div className="card__title">{title.toUpperCase()}</div>
               <div className="card__author">by <span>{author}</span></div>
             </div>

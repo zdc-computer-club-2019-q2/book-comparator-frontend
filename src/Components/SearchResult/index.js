@@ -4,30 +4,40 @@ import "./searchResult.css";
 
 import fbs_1 from "../../images/fbs_1.jpg";
 
-function Result({ author, imageUrl, title, tag }) {
+const INITIAL_RESULTS = [{
+  author: 'Agatha Christie',
+  imageUrl: fbs_1,
+  title: 'The ABC Murders',
+}, {
+  author: 'Agatha Christie',
+  imageUrl: fbs_1,
+  title: 'The ABC Murders',
+}];
+
+
+function Result({ author, imageUrl, title, bestSeller = false }) {
   return (
-    <>
-      <div class="columns is-mobile">
-        <div class="column is-one-fifth">
-          <figure class="image is-4by5">
-            <img src={imageUrl} alt="book" />
-          </figure>
-        </div>
-        <div class="column details">
-          <p class="title is-6">{title.toUpperCase()}</p>
-          <p>
-            <small>by {author}</small>
-          </p>
-          <p class="tag is-warning">{tag ? tag.toUpperCase() : "TAG"}</p>
-        </div>
+    <div className="search-result">
+      <div
+        className="search-result__image"
+        style={{ backgroundImage: `url(${imageUrl})` }}
+      />
+      <div className="search-result__copy">
+        <div className="search-result__title">{title.toUpperCase()}</div>
+        <div className="search-result__author">by <span>{author}</span></div>
+        {
+          bestSeller && (
+            <div className="book-tag search-result__tag book-tag--bestseller">Best Seller</div>
+          )
+        }
       </div>
-      <hr />
-    </>
+    </div>
   );
 }
 
 function SearchResult() {
   const [key, setKey] = useState("");
+  const [results, setResults] = useState(INITIAL_RESULTS);
 
   function onClickSearchResult(e) {
     e.preventDefault();
@@ -36,16 +46,19 @@ function SearchResult() {
   }
 
   return (
-    <div id="search-result">
-      <p className="results">
-        Showing <b>1</b> result.
-      </p>
-      <Result
-        author="Agatha Christie"
-        imageUrl={fbs_1}
-        title="The ABC Murders"
-        onClick={onClickSearchResult}
-      />
+    <div className="search-results">
+      <div className="search-results__number">Showing <b>{results.length}</b> result{results.length > 1 ? 's' : ''}.</div>
+      {
+        results.map((result) => (
+          <div className="search-results__result">
+            <Result
+              {...result}
+              onClick={onClickSearchResult}
+              bestSeller
+            />
+          </div>
+        ))
+      }
     </div>
   );
 }

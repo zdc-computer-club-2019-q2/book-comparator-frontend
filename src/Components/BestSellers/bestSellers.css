@@ -1,4 +1,8 @@
 /*styles for the best seller page!*/
+#bestsellers {
+  margin-top: 200px;
+}
+
 .bestsellers {
   display: flex;
 }
@@ -46,12 +50,6 @@
 
 .card__tag {
   margin-bottom: 10px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  padding: 5px 12px;
-  background: rgb(240,240,240);
-  border-radius: 4px;
 }
 
 .card__image {
@@ -69,11 +67,12 @@
   font-size: 14px;
   letter-spacing: .5px;
   font-weight: 700;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .card__author {
   font-size: 12px;
+  margin-top: 2px;
 }
 
 .card__author span {
