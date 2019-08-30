@@ -19,7 +19,7 @@ function search_result(volumeInfo)
 module.exports = function(req, res, next) {
     // res.send('respond with a resource');
     request.get(`${GOOGLE_BOOKS_API}&q=${req.query.q}`, (err, result) => {
-        var sellable_items = JSON.parse(result.body).items.
+        var sellable_items = (JSON.parse(result.body).items || []).
           filter(function(item){
             return item.saleInfo.saleability == "FOR_SALE";
           }).
