@@ -3,8 +3,8 @@ const { JSDOM } = jsdom;
 var request = require("request");
 
 module.exports = function(req, res, next) {
-    const response = {};
-    /**
+  const response = {};
+  /**
   {
     "title": "1984",
     "cover": "http://.../1984.gif",
@@ -31,8 +31,8 @@ module.exports = function(req, res, next) {
   }
   */
 
-    const offers = {};
-    /**
+  const offers = {};
+  /**
   offers = {
     'bookdepository': {
       price: 100,
@@ -44,131 +44,151 @@ module.exports = function(req, res, next) {
     }
   }
   */
-    function done() {
-        if (Object.keys(offers).length === 3) {
-            response.offers = Object.keys(offers).map(key => {
-                const value = offers[key];
-                return {
-                    ...value,
-                    site: key
-                };
-            });
-            res.json(response);
-        }
+  function done() {
+    if (Object.keys(offers).length === 3) {
+      response.offers = Object.keys(offers).map(key => {
+        const value = offers[key];
+        return {
+          ...value,
+          site: key
+        };
+      });
+      res.json(response);
     }
+  }
 
-    const url = `https://singapore.kinokuniya.com/bw/${req.query.isbn}`;
+  const url = `https://singapore.kinokuniya.com/bw/${req.query.isbn}`;
 
-    request(url, (err, kino) => {
-        if (err) {
-            console.error("Error fetching from kinokuniya", err);
-            offers.kinokuniya = {
-                error: true
-            };
+  request(url, (err, kino) => {
+    if (err) {
+      console.error("Error fetching from kinokuniya", err);
+      offers.kinokuniya = {
+        error: true
+      };
 
-            done();
+      done();
 
-            return;
-        }
-        if (kino.statusCode === 404){
-            console.error("Book not found on kinokuniya");offers.kinokuniya = {
-                error: true
-            };
-            done();
-        } else {
-            const doc = new JSDOM(kino.body).window;
+      return;
+    }
+    if (kino.statusCode === 404) {
+      console.error("Book not found on kinokuniya");
+      offers.kinokuniya = {
+        error: true
+      };
+      done();
+    } else {
+      const doc = new JSDOM(kino.body).window;
 
-            const kino_title = doc.document.title;
-            const kino_desc = doc.document.querySelector(".product-descrip").textContent;
-            const kino_price = doc.document.querySelector(".price span").textContent;
-            const kino_authors = doc.document.querySelectorAll(".author a");
-            const price = doc.document.querySelector(".price span").innerText;
-            const image = doc.document.querySelector(".slider3 img");
+      const kino_title = doc.document.title;
+      const kino_desc = doc.document.querySelector(".product-descrip")
+        .textContent;
+      const kino_price = doc.document.querySelector(".price span").textContent;
+      const kino_authors = doc.document.querySelectorAll(".author a");
+      const price = doc.document.querySelector(".price span").innerText;
+      const image = doc.document.querySelector(".slider3 img");
 
-            let recommendation = Array.from(doc.document.querySelectorAll('.box')).map((box) => ({
-                cover: box.querySelector('.book-image').src,
-                isbn: box.querySelector('.book-image').alt,
-                title: box.querySelector('.txt a:nth-child(1)').textContent.trim(),
-                author: box.querySelector('.txt a:nth-child(2)').textContent.slice(3).trim()
-            }));
+      let recommendation = Array.from(
+        doc.document.querySelectorAll(".box")
+      ).map(box => ({
+        cover: box.querySelector(".book-image").src,
+        isbn: box.querySelector(".book-image").alt,
+        title: box.querySelector(".txt a:nth-child(1)").textContent.trim(),
+        author: box
+          .querySelector(".txt a:nth-child(2)")
+          .textContent.slice(3)
+          .trim()
+      }));
 
-            response.recommendation = recommendation;
-            response.isbn = req.query.isbn;
-            response.title = kino_title;
-            response.cover = image.src;
-            response.description = kino_desc ? kino_desc.trim() : "No description";
-            response.author = Array.from(kino_authors).map(author => author.text);
+      response.recommendation = recommendation;
+      response.isbn = req.query.isbn;
+      response.cover = image.src;
+      response.description = kino_desc ? kino_desc.trim() : "No description";
+      response.author = Array.from(kino_authors).map(author => author.text);
 
-            offers.kinokuniya = { 
-                price: kino_price, url: "https://singapore.kinokuniya.com/bw/" + req.query.isbn
-            };
+      offers.kinokuniya = {
+        price: kino_price,
+        url: "https://singapore.kinokuniya.com/bw/" + req.query.isbn
+      };
 
-            done();
-        }
-    });
+      done();
+    }
+  });
 
-    request(`https://opentrolley.com.sg/Book_Detail.aspx?EAN=${req.query.isbn}`, (err, trolley) => {
-        if (err) {
-            console.error("Error fetching from opentrolley", err);
-            offers.opentrolley = {
-                error: true
-            };
-
-            done();
-
-            return;
-        }
-
-        try {
-            const dom = new JSDOM(trolley.body);
-            const book_price = dom.window.document.querySelector("span#ctl00_ContentPlaceHolder1_lblDiscountedPrice")
-                .textContent;
-
-            offers.opentrolley = {
-                price: book_price,
-                url: `https://opentrolley.com.sg/Book_Detail.aspx?EAN=${req.query.isbn}`
-            };
-        } catch (e) {
-            offers.opentrolley = {
-                error: true
-            };
-        }
+  request(
+    `https://opentrolley.com.sg/Book_Detail.aspx?EAN=${req.query.isbn}`,
+    (err, trolley) => {
+      if (err) {
+        console.error("Error fetching from opentrolley", err);
+        offers.opentrolley = {
+          error: true
+        };
 
         done();
-    });
 
-    request(`https://www.bookdepository.com/search?searchTerm=${req.query.isbn}`, (err, depo) => {
-        if (err) {
-            console.error("Error fetching from bookdepository", err);
-            offers.bookdepository = {
-                error: true
-            };
+        return;
+      }
 
-            done();
+      try {
+        const dom = new JSDOM(trolley.body);
+        const book_price = dom.window.document.querySelector(
+          "span#ctl00_ContentPlaceHolder1_lblDiscountedPrice"
+        ).textContent;
 
-            return;
-        }
+        offers.opentrolley = {
+          price: book_price,
+          url: `https://opentrolley.com.sg/Book_Detail.aspx?EAN=${req.query.isbn}`
+        };
+      } catch (e) {
+        offers.opentrolley = {
+          error: true
+        };
+      }
 
-        try {
-            const depo_dom = new JSDOM(depo.body);
-            const book_price = depo_dom.window.document.querySelector(".sale-price").textContent;
+      done();
+    }
+  );
 
-            response.categories = [...depo_dom.window.document.querySelector(".breadcrumb").children]
-                .slice(1)
-                .map(el => el.textContent.trim());
-
-            offers.bookdepository = {
-                price: book_price,
-                url:
-                    "https://www.bookdepository.com" +
-                    depo_dom.window.document.querySelector('link[rel="canonical"]').href
-            };
-        } catch (e) {
-            offers.bookdepository = {
-                error: true
-            };
-        }
+  request(
+    `https://www.bookdepository.com/search?searchTerm=${req.query.isbn}`,
+    (err, depo) => {
+      if (err) {
+        console.error("Error fetching from bookdepository", err);
+        offers.bookdepository = {
+          error: true
+        };
 
         done();
-    });
+
+        return;
+      }
+
+      try {
+        const depo_dom = new JSDOM(depo.body);
+        const book_price = depo_dom.window.document.querySelector(".sale-price")
+          .textContent;
+
+        response.title = depo_dom.window.document.querySelector(
+          ".item-info h1"
+        ).textContent;
+        response.categories = [
+          ...depo_dom.window.document.querySelector(".breadcrumb").children
+        ]
+          .slice(1)
+          .map(el => el.textContent.trim());
+
+        offers.bookdepository = {
+          price: book_price,
+          url:
+            "https://www.bookdepository.com" +
+            depo_dom.window.document.querySelector('link[rel="canonical"]').href
+        };
+      } catch (e) {
+        offers.bookdepository = {
+          error: true
+        };
+      }
+
+      done();
+    }
+  );
 };
