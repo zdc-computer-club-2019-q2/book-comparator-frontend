@@ -15,6 +15,7 @@
   flex: 1;
   box-shadow: none;
   margin-right: 20px;
+  cursor: pointer;
 }
 
 #bestsellers .card .media-content p {
@@ -57,6 +58,11 @@
   height: 180px;
   width: 120px;
   background-size: cover;
+}
+
+.card__image:hover {
+  transform: scale(1.15);
+  transition: transform 300ms ease-in-out;
 }
 
 .card__title {

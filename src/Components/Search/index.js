@@ -38,8 +38,6 @@ function Search() {
     errorClassNames.push('search__error--display');
   }
 
-  setTimeout(() => setError('ha!'), 500);
-
   return (
     <div id="search" onKeyDown={onKeyDown}>
       <div className="search-instruction">Find the cheapeast store</div>
