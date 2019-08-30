@@ -24,4 +24,10 @@
 #book .store img {
   height: 50px;
   width: 125px;
+  margin-left: 44px;
+}
+
+#book-detail h1 {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 35px;
 }
