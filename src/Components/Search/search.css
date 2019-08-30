@@ -1,12 +1,29 @@
 /*styles for the search page!*/
+#search {
+  margin-top: 5em;
+}
+
 #search .debug {
   font-size: 0.5em;
   margin-top: 10px;
 }
 
+#search .icon {
+  font-family: "Font Awesome 5 Free";
+  padding: 2em 0;
+}
+
 #search input {
-  width: 80%;
-  border: 1px solid grey;
+  border-color: #e5e5e5;
+  border-radius: 0;
+  border-width: 0 0 2px;
+  box-shadow: none;
+  padding: 2em 2em 2em 3em;
+  outline: 0;
+}
+
+#search input:focus {
+  outline: 0;
 }
 
 img {

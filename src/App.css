@@ -1,15 +1,19 @@
-#app {
-  margin: 15px;
+@charset "UTF-8";
+
+@media only screen and (max-width: 768px) {
+  #app {
+    margin: 20px;
+  }
 }
 
 .large-title {
   color: rgb(201, 143, 193);
-  font-family: Helvetica,  Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   text-align: center;
   font-size: 50px;
 }
 
-.small-title{
+.small-title {
   color: chocolate;
   font-family: Helvetica, Arial, sans-serif;
   text-align: center;
@@ -23,7 +27,7 @@
   text-align: center;
 }
 
-.nav-item a{
+.nav-item a {
   color: lightpink;
   text-decoration: none;
   font-family: helvetica;

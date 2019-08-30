@@ -1,0 +1,27 @@
+/*styles for the search page!*/
+#book {
+  margin-top: 5em;
+}
+
+#book .results {
+  margin-bottom: 2em;
+}
+
+#book .column.details {
+  padding-left: 2em !important;
+}
+
+#book .column.details p {
+  margin-bottom: 0.5em;
+}
+
+#book .column.details .tag {
+  background-color: #fdfd96;
+  color: #ff8c00;
+  margin-top: 1em;
+}
+
+#book .store img {
+  height: 50px;
+  width: 125px;
+}

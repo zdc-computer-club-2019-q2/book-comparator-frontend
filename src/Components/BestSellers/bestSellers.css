@@ -1,0 +1,28 @@
+/*styles for the best seller page!*/
+#bestsellers .card {
+  box-shadow: none;
+}
+#bestsellers .card-content {
+  padding-left: 0;
+}
+
+#bestsellers .card .media-content p {
+  margin-bottom: 0.5em;
+}
+
+#bestsellers h1 {
+  margin-bottom: 2em;
+  margin-top: 5em;
+}
+
+#bestsellers h1 span {
+  padding-left: 2em;
+}
+
+#bestsellers .tag {
+  margin-bottom: 10px;
+}
+
+#bestsell #bestsellers .card {
+  box-shadow: none;
+}

@@ -1,34 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
+
+import history from "../../utils/history.js";
+
 import "./search.css";
-import logo from "../../images/simplye2.png";
 
 function Search() {
-  const [key, setKey] = useState(""); // key string for search, using https://reactjs.org/docs/hooks-intro.html
-
-  function onClickSearchBtn(e) {
-    e.preventDefault();
-    // TODO: What to do when the user clicked Search button?
-    console.log(key);
+  function onKeyDown(e) {
+    // Enter key
+    console.log(e.keyCode);
+    console.log(history);
+    if (e.keyCode === 13) {
+      history.push("/result");
+    }
   }
 
+  console.log(">>>", history);
+
   return (
-    <div id="search">
-      <div>
-        <img src={logo} />
+    <div id="search" onKeyDown={onKeyDown}>
+      <p>Find the cheapeast store</p>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input
+            class="input"
+            placeholder="Enter an ISBN, book title or author"
+            type="text"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-search"></i>
+          </span>
+        </p>
       </div>
-      <div id="searchfield">
-        <input
-          align="middle"
-          className="input"
-          onChange={e => setKey(e.target.value)}
-          placeholder="Search..."
-          value={key}
-        />
-        <button className="button" onClick={onClickSearchBtn}>
-          Search!
-        </button>
-      </div>
-      <p className="debug">For debug: the key you input is: {key}</p>
     </div>
   );
 }
