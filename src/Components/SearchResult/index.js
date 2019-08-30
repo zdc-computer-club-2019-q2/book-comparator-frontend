@@ -1,19 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import useFetch from "../../utils/useFetch";
 
 import "./searchResult.css";
-
-import fbs_1 from "../../images/fbs_1.jpg";
-
-const INITIAL_RESULTS = [{
-  author: 'Agatha Christie',
-  imageUrl: fbs_1,
-  title: 'The ABC Murders',
-}, {
-  author: 'Agatha Christie',
-  imageUrl: fbs_1,
-  title: 'The ABC Murders',
-}];
-
 
 function Result({ author, imageUrl, title, bestSeller = false }) {
   return (
@@ -24,41 +12,51 @@ function Result({ author, imageUrl, title, bestSeller = false }) {
       />
       <div className="search-result__copy">
         <div className="search-result__title">{title.toUpperCase()}</div>
-        <div className="search-result__author">by <span>{author}</span></div>
-        {
-          bestSeller && (
-            <div className="book-tag search-result__tag book-tag--bestseller">Best Seller</div>
-          )
-        }
+        <div className="search-result__author">
+          by <span>{author}</span>
+        </div>
+        {bestSeller && (
+          <div className="book-tag search-result__tag book-tag--bestseller">
+            Best Seller
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function SearchResult() {
-  const [key, setKey] = useState("");
-  const [results, setResults] = useState(INITIAL_RESULTS);
+function SearchResult({ location }) {
+  const urlParams = new URLSearchParams(location.search);
+  const searchTerm = urlParams.get("q");
+
+  const { response, error } = useFetch(`/api/search?q=${searchTerm}`);
 
   function onClickSearchResult(e) {
     e.preventDefault();
     // TODO: link to Book
-    console.log(key);
   }
+
+  if (error !== null) {
+    window.alert(error);
+    return;
+  }
+
+  if (response === null) {
+    return <p>Loading ...</p>;
+  }
+
+  const { results, results_count } = response;
 
   return (
     <div className="search-results">
-      <div className="search-results__number">Showing <b>{results.length}</b> result{results.length > 1 ? 's' : ''}.</div>
-      {
-        results.map((result) => (
-          <div className="search-results__result">
-            <Result
-              {...result}
-              onClick={onClickSearchResult}
-              bestSeller
-            />
-          </div>
-        ))
-      }
+      <div className="search-results__number">
+        Showing <b>{results_count}</b> result{results_count > 1 ? "s" : ""}.
+      </div>
+      {results.map(result => (
+        <div className="search-results__result">
+          <Result {...result} onClick={onClickSearchResult} bestSeller />
+        </div>
+      ))}
     </div>
   );
 }
