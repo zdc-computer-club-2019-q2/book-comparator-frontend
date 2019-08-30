@@ -7,15 +7,10 @@ const GOOGLE_BOOKS_API_KEY = "AIzaSyAcotR8YZ-Zsd6dcREUBhkUA_NE3UC5AIY";
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 
 async function requestGet(url) {
-    const options = {
-        url: url,
-        method: "GET"
-    };
-
     // Return new promise
     return new Promise((resolve, reject) => {
         // Do async job
-        request.get(options, (err, resp) => {
+        request.get(url, (err, resp) => {
             if (err) {
                 reject(err);
             } else {
