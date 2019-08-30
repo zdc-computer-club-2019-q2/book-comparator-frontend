@@ -1,11 +1,12 @@
 import React from "react";
+
 import useFetch from "../../utils/useFetch";
 
 import "./searchResult.css";
 
-function Result({ author, imageUrl, title, bestSeller = false }) {
+function Result({ author, imageUrl, title, onClick, bestSeller = false }) {
   return (
-    <div className="search-result">
+    <div className="search-result" onClick={onClick}>
       <div
         className="search-result__image"
         style={{ backgroundImage: `url(${imageUrl})` }}
@@ -25,15 +26,14 @@ function Result({ author, imageUrl, title, bestSeller = false }) {
   );
 }
 
-function SearchResult({ location }) {
+function SearchResult({ location, history }) {
   const urlParams = new URLSearchParams(location.search);
   const searchTerm = urlParams.get("q");
 
   const { response, error } = useFetch(`/api/search?q=${searchTerm}`);
 
-  function onClickSearchResult(e) {
-    e.preventDefault();
-    // TODO: link to Book
+  function onClickSearchResult(isbn) {
+    history.push(`/book/${isbn}`);
   }
 
   if (error !== null) {
@@ -54,7 +54,13 @@ function SearchResult({ location }) {
       </div>
       {results.map(result => (
         <div className="search-results__result">
-          <Result {...result} onClick={onClickSearchResult} bestSeller />
+          <Result
+            {...result}
+            onClick={() => {
+              onClickSearchResult(result.isbn);
+            }}
+            bestSeller
+          />
         </div>
       ))}
     </div>
