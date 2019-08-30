@@ -42,6 +42,10 @@ function BestSeller({ author, imageUrl, tag, title, isbn }) {
     );
 }
 
+function getImageURL(isbn) {
+    return `/api/image?isbn=${isbn}`;
+}
+
 function BestSellers() {
     let { response: fiction } = useFetch("/api/bestseller?type=fiction");
     let { response: nonfiction } = useFetch("/api/bestseller?type=nonfiction");
@@ -54,10 +58,10 @@ function BestSellers() {
                     {fiction &&
                         fiction.results
                             .slice(0, 6)
-                            .map(({ isbn, image, author, title, bestseller_weeks }) => (
+                            .map(({ isbn, author, title, bestseller_weeks }) => (
                                 <BestSeller
                                     author={author}
-                                    imageUrl={image}
+                                    imageUrl={getImageURL(isbn)}
                                     title={title}
                                     isbn={isbn}
                                     tag={`${bestseller_weeks} weeks`}
@@ -72,10 +76,10 @@ function BestSellers() {
                     {nonfiction &&
                         nonfiction.results
                             .slice(0, 6)
-                            .map(({ isbn, image, author, title, bestseller_weeks }) => (
+                            .map(({ isbn, author, title, bestseller_weeks }) => (
                                 <BestSeller
                                     author={author}
-                                    imageUrl={image}
+                                    imageUrl={getImageURL(isbn)}
                                     title={title}
                                     isbn={isbn}
                                     tag={`${bestseller_weeks} weeks`}
