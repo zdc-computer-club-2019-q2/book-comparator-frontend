@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-
-import history from "../../utils/history.js";
+import { withRouter } from "react-router";
 
 import "./search.css";
 
-function Search() {
+function Search({ history }) {
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState();
   const [value, setValue] = useState();
 
   function onKeyDown(e) {
     // Enter key
-    console.log(e.keyCode);
-    console.log(history);
     if (e.keyCode === 13) {
-      history.push("/result");
+      history.push(`/result?result=${value}`);
     }
   }
 
@@ -25,8 +22,6 @@ function Search() {
   function onBlur() {
     setFocus(false);
   }
-
-  console.log(">>>", history);
 
   const inputClassNames = ['search-input'];
   if (focus) {
@@ -63,4 +58,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default withRouter(Search);
