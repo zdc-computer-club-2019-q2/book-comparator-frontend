@@ -15,8 +15,8 @@ function App() {
       <div className="container" id="app">
         <Search />
 
-        <Route path="/" exact component={BestSellers} />
         <Switch>
+          <Route path="/" exact component={BestSellers} />
           <Route path="/result" component={SearchResult} />
           <Route path="/book/:isbn" component={Book} />
         </Switch>
