@@ -94,7 +94,7 @@ function Book({ match }) {
     return <p>Loading ...</p>;
   }
 
-  const { offers, cover, author, title } = response;
+  const { offers, image, author, title } = response;
 
   if (!author) {
     return <p>Book does not exist</p>;
@@ -104,7 +104,7 @@ function Book({ match }) {
 
   return (
     <div id="book">
-      <BookDetail author={finalAuthor} imageUrl={cover} title={title} />
+      <BookDetail author={finalAuthor} imageUrl={image} title={title} />
       {offers.map(offer => {
         if (offer.price) {
           return (
