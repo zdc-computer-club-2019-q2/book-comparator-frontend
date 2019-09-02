@@ -48,12 +48,11 @@
   font-size: 1.25rem;
   display: flex;
   align-items: center;
-  margin-left: 10vw; /* TODO: not 100% center */
+  justify-content: center;
 }
 
-#book .modal-card-body img {
+#book .modal-card-header > div {
   display: inline;
-  margin-left: 10px;
 }
 
 #book .modal-card-details p {
@@ -76,4 +75,22 @@
 
 #book .modal-card-buttons .cancel:hover {
   opacity: 0.8;
+}
+
+#book .modal-card-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#book .modal-card-details {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#book img {
+  margin: 0;
+  margin-left: 10px;
 }

@@ -71,7 +71,7 @@ function Redirect({ brand, open, setOpen, handleContinue }) {
         <section class="modal-card-body">
           <div class="modal-card-details ">
             <div className="modal-card-header">
-              <span>Buying book at </span>
+              <div>Buying book at </div>
               <img src={brand} alt="brand" />
             </div>
             <small>You will be redirected to external website</small>
