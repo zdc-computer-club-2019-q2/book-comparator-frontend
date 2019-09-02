@@ -1,5 +1,6 @@
-/*styles for the search page!*/
+/* Book */
 #book {
+  font-family: "Open Sans", sans-serif;
   margin-top: 5em;
 }
 
@@ -30,4 +31,49 @@
 #book-detail h1 {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 35px;
+}
+
+/* Modal */
+#book .modal-card {
+  text-align: center;
+  padding: 50px;
+}
+
+#book .modal-card-body {
+  text-align: center;
+  padding: 50px 0;
+}
+
+#book .modal-card-header {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  margin-left: 10vw; /* TODO: not 100% center */
+}
+
+#book .modal-card-body img {
+  display: inline;
+  margin-left: 10px;
+}
+
+#book .modal-card-details p {
+  margin-bottom: 20px;
+}
+
+#book .modal-card-buttons {
+  margin-top: 40px;
+}
+
+#book .modal-card-buttons .button:first-child {
+  margin-right: 20px;
+}
+
+#book .modal-card-buttons .cancel {
+  background-color: #ffd9d9;
+  color: #ed322d;
+  border: 0;
+}
+
+#book .modal-card-buttons .cancel:hover {
+  opacity: 0.8;
 }

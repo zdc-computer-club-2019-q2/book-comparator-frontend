@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import useFetch from "../../utils/useFetch";
 
@@ -9,112 +9,141 @@ import brandBookRepository from "../../images/brand-book-repository.png";
 import brandKinokuniya from "../../images/brand-kinokuniya.jpg";
 
 function BookDetail({ author, imageUrl, title, description, categories = [] }) {
-    return (
-        <div id="book-detail" class="columns is-mobile">
-            <div class="column is-one-fifth">
-                <figure class="image is-4by5">
-                    <img src={imageUrl} alt="book" />
-                </figure>
-            </div>
-            <div class="column details">
-                <p class="title is-6">{title.toUpperCase()}</p>
-                <p>
-                    <small>by {author}</small>
-                </p>
-                <p>{description}</p>
-                {categories.map(category => (
-                    <p key={category} class="tag is-warning">
-                        {category}
-                    </p>
-                ))}
-                <h1>Stores</h1>
-            </div>
-        </div>
-    );
+  return (
+    <div id="book-detail" class="columns is-mobile">
+      <div class="column is-one-fifth">
+        <figure class="image is-4by5">
+          <img src={imageUrl} alt="book" />
+        </figure>
+      </div>
+      <div class="column details">
+        <p class="title is-6">{title.toUpperCase()}</p>
+        <p>
+          <small>by {author}</small>
+        </p>
+        <p>{description}</p>
+        {categories.map(category => (
+          <p key={category} class="tag is-warning">
+            {category}
+          </p>
+        ))}
+        <h1>Stores</h1>
+      </div>
+    </div>
+  );
 }
 
-function Store({ brand, price }) {
-    return (
-        <>
-            <div class="columns is-mobile store">
-                <div class="column is-offset-one-fifth">
-                    <figure class="image">
-                        <img src={brand} alt="brand" />
-                    </figure>
-                </div>
-                <div class="column details">
-                    <p class="title is-6">{price}</p>
-                </div>
-                <div class="column">
-                    <button class="button is-light">Buy</button>
-                </div>
-            </div>
-            <hr class="new"></hr>
-        </>
-    );
+function Store({ brand, price, handleClick }) {
+  return (
+    <>
+      <div class="columns is-mobile store">
+        <div class="column is-offset-one-fifth">
+          <figure class="image">
+            <img src={brand} alt="brand" />
+          </figure>
+        </div>
+        <div class="column details">
+          <p class="title is-6">{price}</p>
+        </div>
+        <div class="column">
+          <button class="button is-light" onClick={() => handleClick(brand)}>
+            Buy
+          </button>
+        </div>
+      </div>
+      <hr class="new"></hr>
+    </>
+  );
 }
 
-function Redirect() {
-    // TODO: link to external website
-    return (
-        <div class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <section class="modal-card-body">
-                    <h1>Buying book at kinokuniya</h1>
-                    <p>You will be redirected to external website</p>
-                    <div>
-                        <input class="button" type="submit" value="Submit input" />
-                        <input class="button" type="reset" value="Reset input" />
-                    </div>
-                </section>
+function Redirect({ brand, open, setOpen }) {
+  return (
+    <div className={`modal ${open ? "is-active" : ""}`}>
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <section class="modal-card-body">
+          <div class="modal-card-details ">
+            <div className="modal-card-header">
+              <span>Buying book at </span>
+              <img src={brand} alt="brand" />
             </div>
-            <div class="modal-content"></div>
-            <button class="modal-close is-large" aria-label="close"></button>
-        </div>
-    );
+            <small>You will be redirected to external website</small>
+          </div>
+          <div className="modal-card-buttons">
+            <input class="button cancel" type="submit" value="CANCEL" />
+            <input
+              class="button continue is-light"
+              type="reset"
+              value="CONTINUE"
+            />
+          </div>
+        </section>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        onClick={() => setOpen(false)}
+      ></button>
+    </div>
+  );
 }
 
 const BRAND_IMAGE_MAP = {
-    opentrolley: brandOpenTrolley,
-    bookdepository: brandBookRepository,
-    kinokuniya: brandKinokuniya
+  opentrolley: brandOpenTrolley,
+  bookdepository: brandBookRepository,
+  kinokuniya: brandKinokuniya
 };
 
 function Book({ match }) {
-    const { isbn } = match.params;
+  const { isbn } = match.params;
+  const [open, setOpen] = useState(false);
+  const [brand, setBrand] = useState("");
 
-    const { response } = useFetch(`/api/book?isbn=${isbn}`);
+  const { response } = useFetch(`/api/book?isbn=${isbn}`);
 
-    if (response === null) {
-        return <p>Loading ...</p>;
-    }
+  if (response === null) {
+    return <p>Loading ...</p>;
+  }
 
-    const { offers, author, title, description, image, categories } = response;
+  const { offers, author, title, description, image, categories } = response;
 
-    if (!author) {
-        return <p>Book does not exist</p>;
-    }
+  if (!author) {
+    return <p>Book does not exist</p>;
+  }
 
-    const finalAuthor = author.join ? author.join("; ") : author; // author can be an array
+  const finalAuthor = author.join ? author.join("; ") : author; // author can be an array
 
-    return (
-        <div id="book">
-            <BookDetail
-                author={finalAuthor}
-                imageUrl={image}
-                title={title}
-                description={description}
-                categories={categories}
+  const handleClick = brand => {
+    setBrand(brand);
+    setOpen(true);
+  };
+
+  return (
+    <div id="book">
+      <BookDetail
+        author={finalAuthor}
+        imageUrl={image}
+        title={title}
+        description={description}
+        categories={categories}
+      />
+      {offers.map(offer => {
+        if (offer.price) {
+          return (
+            <Store
+              key={offer.site}
+              brand={BRAND_IMAGE_MAP[offer.site]}
+              price={offer.price}
+              handleClick={handleClick}
             />
-            {offers.map(offer => {
-                if (offer.price) {
-                    return <Store key={offer.site} brand={BRAND_IMAGE_MAP[offer.site]} price={offer.price} />;
-                }
-            })}
-            <Redirect />
-        </div>
-    );
+          );
+        }
+
+        return null;
+      })}
+      <Redirect brand={brand} open={open} setOpen={setOpen} />
+    </div>
+  );
 }
 
 export default Book;
