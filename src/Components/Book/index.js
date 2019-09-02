@@ -33,7 +33,7 @@ function BookDetail({ author, imageUrl, title, description, categories = [] }) {
   );
 }
 
-function Store({ brand, price, handleClick }) {
+function Store({ brand, price, url, handleClick }) {
   return (
     <>
       <div class="columns is-mobile store">
@@ -46,7 +46,10 @@ function Store({ brand, price, handleClick }) {
           <p class="title is-6">{price}</p>
         </div>
         <div class="column">
-          <button class="button is-light" onClick={() => handleClick(brand)}>
+          <button
+            class="button is-light"
+            onClick={() => handleClick(brand, url)}
+          >
             Buy
           </button>
         </div>
@@ -56,7 +59,7 @@ function Store({ brand, price, handleClick }) {
   );
 }
 
-function Redirect({ brand, open, setOpen }) {
+function Redirect({ brand, open, setOpen, handleContinue }) {
   return (
     <div className={`modal ${open ? "is-active" : ""}`}>
       <div class="modal-background"></div>
@@ -70,11 +73,17 @@ function Redirect({ brand, open, setOpen }) {
             <small>You will be redirected to external website</small>
           </div>
           <div className="modal-card-buttons">
-            <input class="button cancel" type="submit" value="CANCEL" />
+            <input
+              class="button cancel"
+              type="submit"
+              value="CANCEL"
+              onClick={() => setOpen(false)}
+            />
             <input
               class="button continue is-light"
               type="reset"
               value="CONTINUE"
+              onClick={handleContinue}
             />
           </div>
         </section>
@@ -98,6 +107,7 @@ function Book({ match }) {
   const { isbn } = match.params;
   const [open, setOpen] = useState(false);
   const [brand, setBrand] = useState("");
+  const [url, setUrl] = useState("");
 
   const { response } = useFetch(`/api/book?isbn=${isbn}`);
 
@@ -113,9 +123,14 @@ function Book({ match }) {
 
   const finalAuthor = author.join ? author.join("; ") : author; // author can be an array
 
-  const handleClick = brand => {
+  const handleClick = (brand, url) => {
     setBrand(brand);
+    setUrl(url);
     setOpen(true);
+  };
+
+  const handleContinue = () => {
+    window.open(url);
   };
 
   return (
@@ -134,6 +149,7 @@ function Book({ match }) {
               key={offer.site}
               brand={BRAND_IMAGE_MAP[offer.site]}
               price={offer.price}
+              url={offer.url}
               handleClick={handleClick}
             />
           );
@@ -141,7 +157,12 @@ function Book({ match }) {
 
         return null;
       })}
-      <Redirect brand={brand} open={open} setOpen={setOpen} />
+      <Redirect
+        brand={brand}
+        open={open}
+        setOpen={setOpen}
+        handleContinue={handleContinue}
+      />
     </div>
   );
 }
