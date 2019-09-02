@@ -43,7 +43,7 @@ function getFromKinokuniya(isbn, callback) {
         } else {
             const doc = new JSDOM(kino.body).window;
 
-            let price = doc.document.querySelector(".price span").lastChild.textContent;
+            let price = doc.document.querySelector(".price span").textContent;
 
             const prices = price.split(" ");
             if (prices.length > 0) {
