@@ -8,6 +8,10 @@ import brandOpenTrolley from "../../images/brand-open-trolley.png";
 import brandBookRepository from "../../images/brand-book-repository.png";
 import brandKinokuniya from "../../images/brand-kinokuniya.jpg";
 
+function formatPrice(price) {
+  return `$${price}`;
+}
+
 function BookDetail({ author, imageUrl, title, description, categories = [] }) {
   return (
     <div id="book-detail" class="columns is-mobile">
@@ -43,7 +47,7 @@ function Store({ brand, price, url, handleClick }) {
           </figure>
         </div>
         <div class="column details">
-          <p class="title is-6">{price}</p>
+          <p class="title is-6">{formatPrice(price)}</p>
         </div>
         <div class="column">
           <button
