@@ -1,8 +1,7 @@
-const { NYT_API_KEY, GOOGLE_BOOKS_API_KEY } = require("../config");
+const { GOOGLE_BOOKS_API_KEY } = require("../config");
 
 var request = require("request");
 
-const NYT_API = `https://api.nytimes.com/svc/books/v3/lists.json?api-key=${NYT_API_KEY}`;
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 
 async function requestGet(url, nullEncoding = false) {
