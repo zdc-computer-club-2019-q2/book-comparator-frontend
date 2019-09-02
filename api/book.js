@@ -181,7 +181,6 @@ module.exports = function(req, res) {
             promisify(getFromBookDepository, isbn),
             promisify(getFromOpenTrolley, isbn)
         ]).then(offers => {
-            console.log(offers);
             const kino = offers.find(offer => offer.site === "kinokuniya");
             if (kino) {
                 response.recommendation = kino.recommendation;
