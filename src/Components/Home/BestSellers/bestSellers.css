@@ -15,10 +15,17 @@
   margin-bottom: 0;
 }
 
-.bestsellers .card {
+.bestsellers .card__container {
+  text-decoration: none;
+  color: #343434;
+  width: 170px;
+  min-width: 170px;
   flex: 1;
+  margin-right: 25px;
+}
+
+.bestsellers .card {
   box-shadow: none;
-  margin-right: 20px;
   cursor: pointer;
 }
 
@@ -28,7 +35,7 @@
 
 #bestsellers .header {
   margin: 0;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
   font-size: 32px;
   line-height: 30px;
   font-weight: 600;
@@ -44,14 +51,8 @@
   margin-left: 20px;
 }
 
-.card__container {
-  text-decoration: none;
-  color: #343434;
-  width: 170px;
-}
-
 .card__copy {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .card__tag {
@@ -59,11 +60,10 @@
 }
 
 .card__image {
-  height: 180px;
-  width: 120px;
-  background-size: cover;
+  height: 200px;
+  width: 150px;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center center;
 }
 
 .card__image:hover {
@@ -72,15 +72,16 @@
 }
 
 .card__title {
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: .5px;
   font-weight: 700;
   margin-top: 20px;
 }
 
 .card__author {
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 2px;
+  line-height: 22px;
 }
 
 .card__author span {

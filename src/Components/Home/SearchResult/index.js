@@ -1,8 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import useFetch from "../../utils/useFetch";
+import useFetch from '../../../utils/useFetch';
 
-import "./searchResult.css";
+import Loader from '../../Loader';
+
+import './searchResult.css';
 
 function Result({ author, title, onClick, isbn, bestSeller = false }) {
   return (
@@ -40,31 +42,40 @@ function SearchResult({ location, history }) {
 
   if (error !== null) {
     window.alert(error);
-    return;
-  }
-
-  if (response === null) {
-    return <p>Loading ...</p>;
+    return
   }
 
   const { results, results_count } = response;
 
   return (
     <div className="search-results">
-      <div className="search-results__number">
-        Showing <b>{results_count}</b> result{results_count > 1 ? "s" : ""}.
-      </div>
-      {results.map(result => (
-        <div className="search-results__result">
-          <Result
-            {...result}
-            onClick={() => {
-              onClickSearchResult(result.isbn);
-            }}
-            bestSeller
-          />
-        </div>
-      ))}
+      {
+        response === null ?
+          <Loader /> :
+          (
+            <React.Fragment>
+              <div className="search-results__number">
+                Showing <b>{results_count}</b> result{results_count > 1 ? "s" : ""}.
+              </div>
+              {
+                results.map((result, i) => (
+                  <div
+                    className="search-results__result"
+                    key={`search-result-${i}`}
+                  >
+                    <Result
+                      {...result}
+                      onClick={() => {
+                        onClickSearchResult(result.isbn);
+                      }}
+                      bestSeller
+                    />
+                  </div>
+                ))
+              }
+            </React.Fragment>
+          )
+      }
     </div>
   );
 }

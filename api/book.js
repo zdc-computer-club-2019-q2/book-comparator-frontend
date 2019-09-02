@@ -1,8 +1,8 @@
-const { GOOGLE_BOOKS_API_KEY } = require("../config");
+const { GOOGLE_BOOKS_API_KEY } = require('../config');
 
-const jsdom = require("jsdom");
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const request = require("request");
+const request = require('request');
 
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 

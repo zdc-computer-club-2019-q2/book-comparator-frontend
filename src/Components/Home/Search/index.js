@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router";
+import React, { useState } from 'react';
+import { withRouter } from 'react-router';
 
-import "./search.css";
+import './search.css';
 
 function Search({ history }) {
   const [focus, setFocus] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const [error, setError] = useState();
   const [value, setValue] = useState();
 
@@ -17,6 +18,14 @@ function Search({ history }) {
 
   function onFocus() {
     setFocus(true);
+
+    setTimeout(() => {
+      setShowTooltip(true);
+    }, 2000);
+
+    setTimeout(() => {
+      setShowTooltip(false);
+    }, 7000);
   }
 
   function onBlur() {
@@ -31,6 +40,11 @@ function Search({ history }) {
   const errorClassNames = ["search__error"];
   if (error) {
     errorClassNames.push("search__error--display");
+  }
+
+  const tooltipClassNames = ["search__tooltip"];
+  if (showTooltip) {
+    tooltipClassNames.push("search__tooltip--display");
   }
 
   return (
@@ -53,10 +67,13 @@ function Search({ history }) {
           }}
         />
       </div>
-      <div className={errorClassNames.join(" ")}>
-        {"Oops, there is no book match '"}
-        <span>{error}</span>
-        {"'."}
+      {/*<div className={errorClassNames.join(" ")}>*/}
+      {/*  {"Oops, there is no book match '"}*/}
+      {/*  <span>{error}</span>*/}
+      {/*  {"'."}*/}
+      {/*</div>*/}
+      <div className={tooltipClassNames.join(" ")}>
+        Press enter to start searching.
       </div>
     </div>
   );

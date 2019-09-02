@@ -1,23 +1,21 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './App.css';
 
-import Book from "./Components/Book/index";
-import BestSellers from "./Components/BestSellers";
-import Search from "./Components/Search/index";
-import SearchResult from "./Components/SearchResult/index";
+import Book from './Components/Book';
+import Home from './Components/Home';
+import SearchBar from './Components/SearchBar';
 
-import history from "./utils/history";
+import history from './utils/history';
 
 function App() {
   return (
     <Router history={history}>
-      <div className="container" id="app">
-        <Search />
+      <SearchBar />
 
+      <div className="container" id="app">
         <Switch>
-          <Route path="/" exact component={BestSellers} />
-          <Route path="/result" component={SearchResult} />
+          <Route path="(/|/result)" component={Home} />
           <Route path="/book/:isbn" component={Book} />
         </Switch>
       </div>
