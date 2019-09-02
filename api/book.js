@@ -192,7 +192,7 @@ module.exports = function(req, res) {
 
             response.offers = offers.filter(Boolean);
 
-            res.setHeader("cache-control", "max-age=3600");
+            res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
             res.json(response);
         });
     });

@@ -52,9 +52,9 @@ module.exports = async function(req, res) {
 
     res.setHeader("content-type", headers["content-type"]);
     if (notFound) {
-        res.setHeader("cache-control", "max-age=3600");
+        res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
     } else {
-        res.setHeader("cache-control", headers["cache-control"]);
+        res.setHeader("Cache-Control", headers["cache-control"]);
         headers["date"] && res.setHeader("date", headers["date"]);
         headers["expires"] && res.setHeader("expires", headers["expires"]);
     }

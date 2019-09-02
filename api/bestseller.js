@@ -49,6 +49,6 @@ module.exports = async function(req, res) {
     }
 
     // Cache for result for 1 hour
-    res.setHeader("Cache-Control", "max-age=3600");
+    res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
     res.json({ results });
 };
