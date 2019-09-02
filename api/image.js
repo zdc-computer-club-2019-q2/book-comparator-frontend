@@ -1,7 +1,9 @@
 const { GOOGLE_BOOKS_API_KEY } = require("../config");
 
-var request = require("request");
+const request = require("request");
+const path = require("path");
 
+const DEFAULT_IMAGE_PATH = path.resolve(__dirname, "../src/images/placeholder.jpg");
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 
 async function requestGet(url, nullEncoding = false) {
@@ -31,33 +33,27 @@ async function getImage(isbn) {
     return data.items[0].volumeInfo.imageLinks.thumbnail;
 }
 
-const defaultImageURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/387928/book%20placeholder.png";
-
 /* Get bestseller list. */
 module.exports = async function(req, res) {
     if (!req.query.isbn) return;
 
     let imageURL;
-    let notFound = false;
     try {
         imageURL = await getImage(req.query.isbn);
     } catch (error) {}
 
-    if (!imageURL) {
-        imageURL = defaultImageURL;
-        notFound = true;
-    }
+    res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
 
-    const [image, headers] = await requestGet(imageURL, true);
+    if (imageURL) {
+        const result = await requestGet(imageURL, true);
+        const image = result[0];
+        const headers = result[1];
 
-    res.setHeader("content-type", headers["content-type"]);
-    if (notFound) {
-        res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
+        res.setHeader("Content-Type", headers["content-type"]);
+        res.setHeader("Content-Length", image.length);
+        res.send(image);
     } else {
-        res.setHeader("Cache-Control", headers["cache-control"]);
-        headers["date"] && res.setHeader("date", headers["date"]);
-        headers["expires"] && res.setHeader("expires", headers["expires"]);
+        res.setHeader("Content-Type", "image/jpeg");
+        res.sendFile(DEFAULT_IMAGE_PATH);
     }
-    res.setHeader("Content-Length", image.length);
-    res.send(image);
 };
