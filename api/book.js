@@ -106,9 +106,7 @@ function getFromBookDepository(isbn, callback) {
             callback({
                 site: "bookdepository",
                 price: book_price.replace(/[^\d\.]*/g, ""),
-                url:
-                    "https://www.bookdepository.com" +
-                    depo_dom.window.document.querySelector('link[rel="canonical"]').href
+                url: depo_dom.window.document.querySelector('link[rel="canonical"]').href
             });
         } catch (e) {
             callback();

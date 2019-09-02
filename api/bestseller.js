@@ -48,5 +48,7 @@ module.exports = async function(req, res) {
         results.push(new_book);
     }
 
+    // Cache for result for 1 hour
+    res.setHeader("Cache-Control", "max-age=3600");
     res.json({ results });
 };

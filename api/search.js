@@ -7,7 +7,7 @@ const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOG
 function search_result(volumeInfo) {
     return {
         isbn: volumeInfo.industryIdentifiers.find(function(isbn) {
-            return isbn.type == "ISBN_13";
+            return isbn.type === "ISBN_13";
         }).identifier,
         title: volumeInfo.title || "",
         categories: volumeInfo.categories || [],
@@ -17,11 +17,10 @@ function search_result(volumeInfo) {
 
 /* Search by keyword. */
 module.exports = function(req, res, next) {
-    // res.send('respond with a resource');
     request.get(`${GOOGLE_BOOKS_API}&q=${req.query.q}`, (err, result) => {
         var sellable_items = (JSON.parse(result.body).items || [])
             .filter(function(item) {
-                return item.saleInfo.saleability == "FOR_SALE";
+                return item.saleInfo.saleability === "FOR_SALE";
             })
             .map(function(item) {
                 return search_result(item.volumeInfo);

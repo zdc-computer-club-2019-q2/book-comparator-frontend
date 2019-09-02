@@ -38,17 +38,26 @@ module.exports = async function(req, res) {
     if (!req.query.isbn) return;
 
     let imageURL;
+    let notFound = false;
     try {
         imageURL = await getImage(req.query.isbn);
     } catch (error) {}
 
-    imageURL = imageURL || defaultImageURL;
+    if (!imageURL) {
+        imageURL = defaultImageURL;
+        notFound = true;
+    }
 
     const [image, headers] = await requestGet(imageURL, true);
+
     res.setHeader("content-type", headers["content-type"]);
-    res.setHeader("cache-control", headers["cache-control"]);
-    res.setHeader("date", headers["date"]);
-    res.setHeader("expires", headers["expires"]);
+    if (notFound) {
+        res.setHeader("cache-control", "max-age: 3600");
+    } else {
+        res.setHeader("cache-control", headers["cache-control"]);
+        headers["date"] && res.setHeader("date", headers["date"]);
+        headers["expires"] && res.setHeader("expires", headers["expires"]);
+    }
     res.setHeader("Content-Length", image.length);
     res.send(image);
 };
