@@ -17,6 +17,7 @@ function getFromGoogleBooks(isbn, callback) {
         const item = body.items[0].volumeInfo;
         callback({
             isbn,
+            image: item.imageLinks.thumbnail,
             title: item.title,
             author: item.authors[0],
             authors: item.authors,
