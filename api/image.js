@@ -1,8 +1,11 @@
 const { GOOGLE_BOOKS_API_KEY } = require("../config");
 
 const request = require("request");
+const fs = require("fs");
+const util = require("util");
 const path = require("path");
 
+const readFile = util.promisify(fs.readFile);
 const DEFAULT_IMAGE_PATH = path.resolve(__dirname, "../src/images/placeholder.jpg");
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 
@@ -33,27 +36,36 @@ async function getImage(isbn) {
     return data.items[0].volumeInfo.imageLinks.thumbnail;
 }
 
+let defaultImage;
+
 /* Get bestseller list. */
 module.exports = async function(req, res) {
     if (!req.query.isbn) return;
 
     let imageURL;
+    let image;
+
     try {
         imageURL = await getImage(req.query.isbn);
     } catch (error) {}
 
-    res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
-
     if (imageURL) {
         const result = await requestGet(imageURL, true);
-        const image = result[0];
         const headers = result[1];
+        image = result[0];
 
         res.setHeader("Content-Type", headers["content-type"]);
-        res.setHeader("Content-Length", image.length);
-        res.send(image);
     } else {
+        if (!defaultImage) {
+            const imageFile = await readFile(DEFAULT_IMAGE_PATH);
+            defaultImage = Buffer.from(imageFile, "base64");
+        }
+
+        image = defaultImage;
         res.setHeader("Content-Type", "image/jpeg");
-        res.sendFile(DEFAULT_IMAGE_PATH);
     }
+
+    res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
+    res.setHeader("Content-Length", image.length);
+    res.send(image);
 };
