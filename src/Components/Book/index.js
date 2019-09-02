@@ -1,37 +1,35 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import useFetch from "../../utils/useFetch";
+import useFetch from '../../utils/useFetch';
 
-import "./book.css";
+import Recommendations from './Recommendations';
 
-import brandOpenTrolley from "../../images/brand-open-trolley.png";
-import brandBookRepository from "../../images/brand-book-repository.png";
-import brandKinokuniya from "../../images/brand-kinokuniya.jpg";
+import Loader from '../Loader';
+
+import './book.css';
+
+import brandOpenTrolley from '../../images/brand-open-trolley.png';
+import brandBookRepository from '../../images/brand-book-repository.png';
+import brandKinokuniya from '../../images/brand-kinokuniya.jpg';
 
 function formatPrice(price) {
-  return `$${price}`;
+  return `$ ${price}`;
 }
 
-function BookDetail({ author, imageUrl, title, description, categories = [] }) {
+function BookDetail({ isbn, author, title, description, categories = [] }) {
   return (
-    <div id="book-detail" class="columns is-mobile">
-      <div class="column is-one-fifth">
-        <figure class="image is-4by5">
-          <img src={imageUrl} alt="book" />
-        </figure>
-      </div>
-      <div class="column details">
-        <p class="title is-6">{title.toUpperCase()}</p>
-        <p>
-          <small>by {author}</small>
-        </p>
-        <p>{description}</p>
+    <div className="book">
+      <div className="book__copy">
+        <div className="book__isbn">{isbn}</div>
+        <div className="book__title">{title}</div>
+        <div className="book__author">by <b>{author}</b></div>
+        <div className="book__description">{description}</div>
+
         {categories.map(category => (
-          <p key={category} class="tag is-warning">
+          <div key={category} className="book-tag">
             {category}
-          </p>
+          </div>
         ))}
-        <h1>Stores</h1>
       </div>
     </div>
   );
@@ -39,37 +37,33 @@ function BookDetail({ author, imageUrl, title, description, categories = [] }) {
 
 function Store({ brand, price, url, handleClick }) {
   return (
-    <>
-      <div class="columns is-mobile store">
-        <div class="column is-offset-one-fifth">
-          <figure class="image">
-            <img src={brand} alt="brand" />
-          </figure>
-        </div>
-        <div class="column details">
-          <p class="title is-6">{formatPrice(price)}</p>
-        </div>
-        <div class="column">
-          <button
-            class="button is-light"
-            onClick={() => handleClick(brand, url)}
-          >
-            Buy
-          </button>
-        </div>
+    <div className="store">
+      <div className="store__logo-wrapper">
+        <div
+          className="store__logo"
+          style={{backgroundImage: `url(${brand})`}}
+        />
       </div>
-      <hr class="new"></hr>
-    </>
+      <div className="store__price">{formatPrice(price)}</div>
+      <div className="store__buy-btn">
+        <button
+          className="store__buy-btn-cta"
+          onClick={() => handleClick(brand, url)}
+        >
+          Buy
+        </button>
+      </div>
+    </div>
   );
 }
 
 function Redirect({ brand, open, setOpen, handleContinue }) {
   return (
     <div className={`modal ${open ? "is-active" : ""}`}>
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <section class="modal-card-body">
-          <div class="modal-card-details ">
+      <div className="modal-background"></div>
+      <div className="modal-card">
+        <section className="modal-card-body">
+          <div className="modal-card-details ">
             <div className="modal-card-header">
               <div>Buying book at </div>
               <img src={brand} alt="brand" />
@@ -78,13 +72,13 @@ function Redirect({ brand, open, setOpen, handleContinue }) {
           </div>
           <div className="modal-card-buttons">
             <input
-              class="button cancel"
+              className="button cancel"
               type="submit"
               value="CANCEL"
               onClick={() => setOpen(false)}
             />
             <input
-              class="button continue is-light"
+              className="button continue is-light"
               type="reset"
               value="CONTINUE"
               onClick={handleContinue}
@@ -93,7 +87,7 @@ function Redirect({ brand, open, setOpen, handleContinue }) {
         </section>
       </div>
       <button
-        class="modal-close is-large"
+        className="modal-close is-large"
         aria-label="close"
         onClick={() => setOpen(false)}
       ></button>
@@ -115,11 +109,7 @@ function Book({ match }) {
 
   const { response } = useFetch(`/api/book?isbn=${isbn}`);
 
-  if (response === null) {
-    return <p>Loading ...</p>;
-  }
-
-  const { offers, author, title, description, image, categories } = response;
+  const { offers, author, title, description, image, categories, recommendation } = response;
 
   if (!author) {
     return <p>Book does not exist</p>;
@@ -139,28 +129,48 @@ function Book({ match }) {
 
   return (
     <div id="book">
-      <BookDetail
-        author={finalAuthor}
-        imageUrl={image}
-        title={title}
-        description={description}
-        categories={categories}
-      />
-      {offers.map(offer => {
-        if (offer.price) {
-          return (
-            <Store
-              key={offer.site}
-              brand={BRAND_IMAGE_MAP[offer.site]}
-              price={offer.price}
-              url={offer.url}
-              handleClick={handleClick}
-            />
-          );
-        }
+      <div className="book__row">
+        <div
+          className="book__cover"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
 
-        return null;
-      })}
+        <div className="book__details">
+          <BookDetail
+            author={finalAuthor}
+            title={title}
+            description={description}
+            categories={categories}
+            isbn={isbn}
+          />
+
+          <div className="stores">
+            <h1 className="header">Stores</h1>
+            {
+              offers.map(offer => {
+                if (offer.price) {
+                  return (
+                    <Store
+                      key={offer.site}
+                      brand={BRAND_IMAGE_MAP[offer.site]}
+                      price={offer.price}
+                      url={offer.url}
+                      handleClick={handleClick}
+                    />
+                  );
+                }
+
+                return null;
+              })
+            }
+          </div>
+        </div>
+      </div>
+
+      <Recommendations recommendation={recommendation} className="recommendations-wrapper" />
+
       <Redirect
         brand={brand}
         open={open}

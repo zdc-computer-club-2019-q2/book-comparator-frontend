@@ -30,9 +30,10 @@ img {
 }
 
 .search-instruction {
-  color: rgb(128,128,128);
+  color: #a0a0a0;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
 .search-input {
@@ -67,6 +68,9 @@ img {
 
 #search .search__error {
   color: #af0000;
+}
+
+#search .search__error, #search .search__tooltip {
   font-size: 12px;
   margin-top: 10px;
   opacity: 0;
@@ -74,7 +78,7 @@ img {
   transition: opacity 300ms linear, transform 300ms ease-in-out;
 }
 
-#search .search__error--display {
+#search .search__error--display, #search .search__tooltip--display {
   opacity: 1;
   transform: translateY(0);
 }

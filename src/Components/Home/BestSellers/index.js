@@ -1,7 +1,9 @@
-import React from "react";
-import useFetch from "../../utils/useFetch";
+import React from 'react';
+import useFetch from '../../../utils/useFetch';
 
-import "./bestSellers.css";
+import Loader from '../../Loader';
+
+import './bestSellers.css';
 
 function Header({ type }) {
     return (
@@ -15,7 +17,6 @@ function Header({ type }) {
 }
 
 function BestSeller({ author, imageUrl, tag, title, isbn }) {
-    // TODO: link to Book
     const url = "/book/" + isbn;
     return (
         <a href={url} className="card__container">
@@ -47,41 +48,55 @@ function BestSellers() {
 
     return (
         <div id="bestsellers">
-            <div className="bestsellers__section">
-                <Header type="Fiction" />
-                <div class="bestsellers">
-                    {fiction &&
-                        fiction.results
-                            .slice(0, 6)
-                            .map(({ isbn, author, title, bestseller_weeks }) => (
-                                <BestSeller
-                                    author={author}
-                                    imageUrl={getImageURL(isbn)}
-                                    title={title}
-                                    isbn={isbn}
-                                    tag={`${bestseller_weeks} weeks`}
-                                />
-                            ))}
-                </div>
-            </div>
+          {(!fiction && !nonfiction) && <Loader />}
 
-            <div className="bestsellers__section">
+          {
+            fiction && (
+              <div className="bestsellers__section">
+                <Header type="Fiction" />
+                <div className="bestsellers">
+                  {
+                    fiction.results
+                      .slice(0, 6)
+                      .map(({ isbn, author, title, bestseller_weeks }, i) => (
+                        <BestSeller
+                          author={author}
+                          imageUrl={getImageURL(isbn)}
+                          title={title}
+                          isbn={isbn}
+                          tag={`${bestseller_weeks} weeks`}
+                          key={`fiction-best-seller-${i}`}
+                        />
+                      ))
+                  }
+                </div>
+              </div>
+            )
+          }
+
+          {
+            nonfiction && (
+              <div className="bestsellers__section">
                 <Header type="Non Fiction" />
                 <div className="bestsellers">
-                    {nonfiction &&
-                        nonfiction.results
-                            .slice(0, 6)
-                            .map(({ isbn, author, title, bestseller_weeks }) => (
-                                <BestSeller
-                                    author={author}
-                                    imageUrl={getImageURL(isbn)}
-                                    title={title}
-                                    isbn={isbn}
-                                    tag={`${bestseller_weeks} weeks`}
-                                />
-                            ))}
+                  {
+                    nonfiction.results
+                      .slice(0, 6)
+                      .map(({ isbn, author, title, bestseller_weeks }, i) => (
+                        <BestSeller
+                          author={author}
+                          imageUrl={getImageURL(isbn)}
+                          title={title}
+                          isbn={isbn}
+                          tag={`${bestseller_weeks} weeks`}
+                          key={`non-fiction-best-seller-${i}`}
+                        />
+                      ))
+                  }
                 </div>
-            </div>
+              </div>
+            )
+          }
         </div>
     );
 }
