@@ -1,8 +1,6 @@
 {
-  "build": {
-    "env": {
-      "GOOGLE_BOOKS_API_KEY": "@google_books_api_key",
-      "NYT_API_KEY": "@nyt_api_key"
-    }
+  "env": {
+    "GOOGLE_BOOKS_API_KEY": "@google_books_api_key",
+    "NYT_API_KEY": "@nyt_api_key"
   }
 }
