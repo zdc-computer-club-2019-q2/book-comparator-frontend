@@ -10,6 +10,8 @@ function getFromGoogleBooks(isbn, callback) {
     request.get(`${GOOGLE_BOOKS_API}&q=isbn:${isbn}`, (err, result) => {
         const body = JSON.parse(result.body);
 
+        console.log("Google book result", body);
+
         if (body.totalItems === 0) {
             return callback();
         }
