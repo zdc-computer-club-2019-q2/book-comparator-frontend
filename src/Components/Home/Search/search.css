@@ -1,6 +1,6 @@
 /*styles for the search page!*/
 #search {
-  height: 50vh;
+  height: 30vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

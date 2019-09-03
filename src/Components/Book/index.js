@@ -148,26 +148,30 @@ function Book({ match, history }) {
                             isbn={isbn}
                         />
 
-                        {offers.length > 0 && (
+                        {
+                          offers && offers.length > 0 && (
                             <div className="stores">
                                 <h1 className="header">Stores</h1>
-                                {offers.map(offer => {
+                                {
+                                  offers.map(offer => {
                                     if (offer.price) {
-                                        return (
-                                            <Store
-                                                key={offer.site}
-                                                brand={BRAND_IMAGE_MAP[offer.site]}
-                                                price={offer.price}
-                                                url={offer.url}
-                                                handleClick={handleClick}
-                                            />
-                                        );
+                                      return (
+                                        <Store
+                                          key={offer.site}
+                                          brand={BRAND_IMAGE_MAP[offer.site]}
+                                          price={offer.price}
+                                          url={offer.url}
+                                          handleClick={handleClick}
+                                        />
+                                      );
                                     }
 
                                     return null;
-                                })}
+                                  })
+                                }
                             </div>
-                        )}
+                          )
+                        }
                     </div>
                 </div>
 

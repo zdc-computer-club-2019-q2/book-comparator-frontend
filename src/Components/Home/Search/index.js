@@ -49,7 +49,7 @@ function Search({ history }) {
 
   return (
     <div id="search" onKeyDown={onKeyDown}>
-      <div className="search-instruction">Find the cheapest store</div>
+      <div className="search-instruction">Find your next book</div>
       <div className={inputClassNames.join(" ")}>
         <span className="icon is-small is-left">
           <i className="fas fa-search"></i>

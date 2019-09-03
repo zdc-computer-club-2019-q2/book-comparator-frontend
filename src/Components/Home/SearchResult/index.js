@@ -41,31 +41,28 @@ function SearchResult({ location, history }) {
         return;
     }
 
-    if (!response) {
-        return <Loader />;
-    }
-
-    const { results, results_count } = response;
-
     return (
         <div className="search-results">
+            {!response && <Loader />}
             {
-                <React.Fragment>
-                    <div className="search-results__number">
-                        Showing <b>{results_count}</b> result{results_count > 1 ? "s" : ""}.
-                    </div>
-                    {results.map((result, i) => (
+                response && (
+                  <React.Fragment>
+                      <div className="search-results__number">
+                          Showing <b>{response.results_count}</b> result{response.results_count > 1 ? "s" : ""}.
+                      </div>
+                      {response.results.map((result, i) => (
                         <div className="search-results__result" key={`search-result-${i}`}>
                             <Result
-                                {...result}
-                                onClick={() => {
-                                    onClickSearchResult(result.isbn);
-                                }}
-                                bestSeller
+                              {...result}
+                              onClick={() => {
+                                  onClickSearchResult(result.isbn);
+                              }}
+                              bestSeller
                             />
                         </div>
-                    ))}
-                </React.Fragment>
+                      ))}
+                  </React.Fragment>
+                )
             }
         </div>
     );
