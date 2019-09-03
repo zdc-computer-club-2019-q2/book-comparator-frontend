@@ -15,19 +15,23 @@ function Book({ title, isbn, author, image }) {
 }
 
 function Recommendations({ recommendation, className }) {
-  return (
-    <div className={className}>
-      <h1 className="header-2">Books You Might Also Like</h1>
+  if (recommendation) {
+    return (
+      <div className={className}>
+        <h1 className="header-2">Books You Might Also Like</h1>
 
-      <div className="recommendations">
-        {
-          recommendation.map((book, i) => (
-            <Book {...book} key={`recommendation-book-${i}`} />
-          ))
-        }
+        <div className="recommendations">
+          {
+            recommendation.map((book, i) => (
+              <Book {...book} key={`recommendation-book-${i}`} />
+            ))
+          }
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 }
 
 export default Recommendations;

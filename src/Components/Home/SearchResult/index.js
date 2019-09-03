@@ -45,8 +45,6 @@ function SearchResult({ location, history }) {
     return
   }
 
-  const { results, results_count } = response;
-
   return (
     <div className="search-results">
       {
@@ -55,10 +53,10 @@ function SearchResult({ location, history }) {
           (
             <React.Fragment>
               <div className="search-results__number">
-                Showing <b>{results_count}</b> result{results_count > 1 ? "s" : ""}.
+                Showing <b>{response.results_count}</b> result{response.results_count > 1 ? "s" : ""}.
               </div>
               {
-                results.map((result, i) => (
+                response.results.map((result, i) => (
                   <div
                     className="search-results__result"
                     key={`search-result-${i}`}

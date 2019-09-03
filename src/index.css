@@ -29,3 +29,60 @@ code {
   text-transform: uppercase;
   width: fit-content;
 }
+
+.nav-link {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #4a4a4a;
+  text-decoration: none;
+}
+
+.nav-link .icon {
+  margin-right: 8px;
+}
+
+.nav-link:hover {
+  opacity: .8;
+  transition: opacity 300ms ease-in-out;
+}
+
+.home-nav-link {
+  margin-top: 50px;
+}
+
+.back-nav-link {
+  margin-bottom: 50px;
+}
+
+.cta {
+  background: #e6e6e6;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  border: none;
+  height: 48px;
+  font-size: 14px;
+  min-width: 110px;
+  padding: 0 30px;
+  outline: none;
+  cursor: pointer;
+  transition: background 100ms ease-out;
+}
+
+.cta:hover {
+  background: #dedede;
+  transition: background 300ms ease-in;
+}
+
+.cancel-cta {
+  background: #ffd9d9;
+  color: #e60000;
+}
+
+.cancel-cta:hover {
+  background: #ffcecc;
+}

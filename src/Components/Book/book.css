@@ -10,6 +10,10 @@
 }
 
 /* Modal */
+.modal {
+  z-index: 200;
+}
+
 #book .modal-card {
   text-align: center;
   padding: 50px;
@@ -18,29 +22,46 @@
 #book .modal-card-body {
   text-align: center;
   padding: 50px 0;
+  border-radius: 4px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.2);
 }
 
 #book .modal-card-header {
-  font-size: 1.25rem;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 }
 
 #book .modal-card-header > div {
   display: inline;
 }
 
+#book .modal-card-details {
+  font-size: 16px;
+}
+
 #book .modal-card-details p {
   margin-bottom: 20px;
 }
 
-#book .modal-card-buttons {
+#book .modal-card-buttons .cta {
   margin-top: 40px;
+  margin-right: 30px;
 }
 
-#book .modal-card-buttons .button:first-child {
-  margin-right: 20px;
+.modal-card-buttons .cta:last-child {
+  margin-right: 0;
+}
+
+.modal-card-body .store-logo {
+  height: 60px;
+  width: 120px;
+  background-size: contain;
+  background-position: left center;
+  margin-left: 10px;
+  background-repeat: no-repeat;
 }
 
 #book .modal-card-buttons .cancel {
@@ -163,25 +184,6 @@
   text-align: right;
 }
 
-.store__buy-btn-cta {
-  background: #e6e6e6;
-  border-radius: 4px;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  border: none;
-  height: 48px;
-  font-size: 14px;
-  min-width: 110px;
-  outline: none;
-  cursor: pointer;
-}
-
-.store__buy-btn-cta:hover {
-  background: #dedede;
-  transition: background 300ms ease-in-out;
-}
-
 /**
  *  Recommendations
  */
@@ -233,4 +235,29 @@
 
 .recommendation__book__author span {
   font-weight: 700;
+}
+
+
+/**
+ * Modal animation
+ */
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.alert-exit {
+  opacity: 1;
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
 }
