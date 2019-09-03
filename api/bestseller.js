@@ -21,18 +21,8 @@ async function requestGet(url) {
 /* Get bestseller list. */
 module.exports = async function(req, res) {
     const type = req.query.type || "fiction"; // default fiction
-    let listName;
 
-    switch (type) {
-        case "fiction":
-            listName = "hardcover-fiction";
-            break;
-        case "nonfiction":
-        default:
-            listName = "hardcover-nonfiction";
-    }
-
-    const data = JSON.parse(await requestGet(`${NYT_API}&list-name=${listName}`));
+    const data = JSON.parse(await requestGet(`${NYT_API}&list-name=${type}`));
 
     const results = [];
 
