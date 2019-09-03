@@ -1,4 +1,4 @@
-const { GOOGLE_BOOKS_API_KEY } = require('../config');
+const { GOOGLE_BOOKS_API_KEY } = require("../config");
 
 var request = require("request");
 
@@ -18,7 +18,6 @@ function search_result(volumeInfo) {
 /* Search by keyword. */
 module.exports = function(req, res, next) {
     request.get(`${GOOGLE_BOOKS_API}&q=${req.query.q}`, (err, result) => {
-
         var sellable_items = (JSON.parse(result.body).items || [])
             .filter(function(item) {
                 return item.saleInfo.saleability === "FOR_SALE";
