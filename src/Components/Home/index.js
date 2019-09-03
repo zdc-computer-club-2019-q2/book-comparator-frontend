@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import Search from './Search';
 
@@ -11,6 +11,10 @@ function Home(props) {
 
   return (
     <React.Fragment>
+      <div className="home-nav-link">
+        <Link to="/" className="nav-link">Home</Link>
+      </div>
+
       <Search />
 
       { pathname === '/' ? <BestSellers /> : <SearchResult {...props} /> }
