@@ -47,7 +47,9 @@ module.exports = async function(req, res) {
 
     try {
         imageURL = await getImage(req.query.isbn);
-    } catch (error) {}
+    } catch (error) {
+        console.error("Failed to fetch image", error);
+    }
 
     if (imageURL) {
         const result = await requestGet(imageURL, true);
