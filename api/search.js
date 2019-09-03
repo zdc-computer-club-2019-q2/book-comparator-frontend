@@ -16,7 +16,8 @@ function search_result(volumeInfo) {
 }
 
 /* Search by keyword. */
-module.exports = function(req, res, next) {
+module.exports = function(req, res) {
+    console.log("GOOGLE_BOOKS_API", GOOGLE_BOOKS_API);
     request.get(`${GOOGLE_BOOKS_API}&q=${req.query.q}`, (err, result) => {
         var sellable_items = (JSON.parse(result.body).items || [])
             .filter(function(item) {

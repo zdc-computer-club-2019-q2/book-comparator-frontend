@@ -5,8 +5,10 @@ const { JSDOM } = jsdom;
 const request = require("request");
 
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
+console.log("GOOGLE_BOOKS_API", GOOGLE_BOOKS_API);
 
 function getFromGoogleBooks(isbn, callback) {
+    console.log("GOOGLE_BOOKS_API", GOOGLE_BOOKS_API);
     request.get(`${GOOGLE_BOOKS_API}&q=isbn:${isbn}`, (err, result) => {
         const body = JSON.parse(result.body);
 
