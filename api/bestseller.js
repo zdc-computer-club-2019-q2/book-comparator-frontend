@@ -20,7 +20,7 @@ async function requestGet(url) {
 
 /* Get bestseller list. */
 module.exports = async function(req, res) {
-    const type = req.query.type || "fiction"; // default fiction
+    const type = req.query.type || "hardcover-fiction"; // default fiction
 
     const data = JSON.parse(await requestGet(`${NYT_API}&list-name=${type}`));
 
