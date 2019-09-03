@@ -68,7 +68,7 @@ function Item({ listName, displayName }) {
                                 imageUrl={getImageURL(isbn)}
                                 title={title}
                                 isbn={isbn}
-                                tag={`${bestseller_weeks} weeks`}
+                                tag={bestseller_weeks === 0 ? 'new' : `${bestseller_weeks} weeks`}
                                 key={`fiction-best-seller-${i}`}
                             />
                         ))

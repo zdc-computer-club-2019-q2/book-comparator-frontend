@@ -38,6 +38,8 @@ code {
   cursor: pointer;
   color: #4a4a4a;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .nav-link .icon {
@@ -49,8 +51,21 @@ code {
   transition: opacity 300ms ease-in-out;
 }
 
+.nav-link .logo {
+  height: 20px;
+  width: auto;
+  margin-right: 10px;
+}
+
 .home-nav-link {
   margin-top: 50px;
+  width: fit-content;
+  letter-spacing: 2px;
+}
+
+.home-nav-link .nav-link {
+  letter-spacing: 2px;
+  font-weight: 700;
 }
 
 .back-nav-link {
