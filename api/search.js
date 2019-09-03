@@ -26,6 +26,7 @@ module.exports = function(req, res) {
                 return search_result(item.volumeInfo);
             });
 
+        res.setHeader("Cache-Control", "public, s-maxage=3600, max-age=3600");
         res.send({
             results: sellable_items,
             results_count: sellable_items.length
