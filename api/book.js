@@ -7,10 +7,8 @@ const request = require("request");
 const GOOGLE_BOOKS_API = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}`;
 
 function getFromGoogleBooks(isbn, callback) {
-    request.get(`${GOOGLE_BOOKS_API}&q=isbn:${isbn}`, (err, result) => {
+    request.get(`${GOOGLE_BOOKS_API}&q=isbn:${isbn}`, (_err, result) => {
         const body = JSON.parse(result.body);
-
-        console.log("Google book result", body);
 
         if (body.totalItems === 0) {
             return callback();
