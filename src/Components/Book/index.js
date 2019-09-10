@@ -13,8 +13,9 @@ import brandOpenTrolley from "../../images/brand-open-trolley.png";
 import brandBookRepository from "../../images/brand-book-repository.png";
 import brandKinokuniya from "../../images/brand-kinokuniya.jpg";
 
-function formatPrice(price) {
-    return `$ ${price}`;
+function formatPrice(site, price) {
+    if (site === "bookdepository") return `USD ${price}`;
+    return `SGD ${price}`;
 }
 
 function BookDetail({ isbn, author, title, description, categories = [] }) {
@@ -38,13 +39,13 @@ function BookDetail({ isbn, author, title, description, categories = [] }) {
     );
 }
 
-function Store({ brand, price, url, handleClick }) {
+function Store({ brand, site, price, url, handleClick }) {
     return (
         <div className="store">
             <div className="store__logo-wrapper">
                 <div className="store__logo" style={{ backgroundImage: `url(${brand})` }} />
             </div>
-            <div className="store__price">{formatPrice(price)}</div>
+            <div className="store__price">{formatPrice(site, price)}</div>
             <div className="store__buy-btn">
                 <button className="store__buy-btn-cta cta" onClick={() => handleClick(brand, url)}>
                     Buy
@@ -148,30 +149,27 @@ function Book({ match, history }) {
                             isbn={isbn}
                         />
 
-                        {
-                          offers && offers.length > 0 && (
+                        {offers && offers.length > 0 && (
                             <div className="stores">
                                 <h1 className="header">Stores</h1>
-                                {
-                                  offers.map(offer => {
+                                {offers.map(offer => {
                                     if (offer.price) {
-                                      return (
-                                        <Store
-                                          key={offer.site}
-                                          brand={BRAND_IMAGE_MAP[offer.site]}
-                                          price={offer.price}
-                                          url={offer.url}
-                                          handleClick={handleClick}
-                                        />
-                                      );
+                                        return (
+                                            <Store
+                                                key={offer.site}
+                                                site={offer.site}
+                                                brand={BRAND_IMAGE_MAP[offer.site]}
+                                                price={offer.price}
+                                                url={offer.url}
+                                                handleClick={handleClick}
+                                            />
+                                        );
                                     }
 
                                     return null;
-                                  })
-                                }
+                                })}
                             </div>
-                          )
-                        }
+                        )}
                     </div>
                 </div>
 
